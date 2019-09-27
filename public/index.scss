@@ -1,0 +1,58 @@
+@import "./variables";
+html{
+    position: relative;
+    @include noMorp();
+}
+body{
+    position: relative;
+    @include noMorp();
+    @include flexCenter( column );
+    justify-content: flex-start;
+    box-sizing: border-box;
+    background-color: $db;
+    overflow-x: scroll;
+
+}
+main{
+    position: relative;
+    @include flexCenter( column );
+    width: 100vw;
+    height: 250px;
+    background-color: $g;
+    margin-bottom: 100px;
+    .title{
+        @include flexCenter( column );
+        @include noMorp();
+        width: 85%;
+        color: red;
+        h1{
+            @include noMorp();
+            text-align: center;
+            font-size: 70px;
+            color: $b;
+        }
+    }
+    select{
+        height: 40px;
+        width: 240px;
+        border: 1px solid $lb;
+    }
+}
+.p5Canvas{
+    position: relative;
+    border: 2px solid $b;
+    overflow-x: scroll;
+}
+        button{
+            height: 40px;
+            width: 240px;
+            background-color: transparent;
+            color: $b;
+            border: 2px solid $b;
+            margin: 10px;
+            transition: background-color 0.3s ease-out, color 0.3s ease-out;
+            &:hover{
+                background-color: $b;
+                color: $db;
+            }
+        }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>Práctica 1</title>
+</head>
+<body>
+    <main>
+        <div class="title">
+            <h1>Analizador de círculos</h1>
+            <select name="image" id="imageSelector" class="input" onchange="handleSelectChange(this)">
+                <option value="">Selecciona una imagen</option>
+                <option value="2-1"> Ejemplo 2-1 </option>
+                <option value="2-2"> Ejemplo 2-2 </option>
+                <option value="2-3"> Ejemplo 2-3 </option>
+                <option value="2-4"> Ejemplo 2-4 </option>
+                <option value="2-5"> Ejemplo 2-5 </option>
+                <option value="2-6"> Ejemplo 2-6 </option>
+                <option value="2-7"> Ejemplo 2-7 </option>
+                <option value="2-8"> Ejemplo 2-8 </option>
+                <option value="2-9"> Ejemplo 2-9 </option>
+                <option value="2-10"> Ejemplo 2-10 </option>
+                <option value="2-11"> Ejemplo 2-11 </option>
+                <option value="2-e1"> Ejemplo 2-e1 </option>
+                <option value="2-e2"> Ejemplo 2-e2 </option>
+                <option value="2-e3"> Ejemplo 2-e3 </option>
+                <option value="2-e4"> Ejemplo 2-e4 </option>
+                <option value="limbo"> Ejemplo limbo </option>
+            </select>
+        </div>
+    </main>
+    <script>
+    handleSelectChange = (ele) => {
+        imageName = ele.value;
+        if ( imageName != "" && imageName != 'undefined' ){
+            console.log("Sending:  "+imageName);
+            socket.emit('changeImage', imageName);
+        }
+        else{
+            console.log("nulo");
+        }
+    }
+    </script>
+    <script src = "utilities/p5/p5/empty-example/p5.js" ></script>
+    <script src = "utilities/p5/p5/empty-example/p5.dom.js" ></script>
+    <script src = "src/pCircle.js"></script>
+    <script src = "src/utilities.js"></script>
+    <script src = "src/process.js"></script>
+    <script src = "src/circleFunctions.js" ></script>
+    <script src = "src/Line.js"></script>
+    <script src = "src/Graph.js"></script>
+    <script src = "src/Node.js"></script>
+    <script src = "utilities/socket.io.dev.js"></script>
+    <!-- <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script> -->
+    <script src = "src/sketch.js" ></script>
+</body>
+</html>

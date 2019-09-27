@@ -1,0 +1,9 @@
+details = getLineCoords( dot.h, dot.k, tod.h, tod.k );
+    //details = {
+        m: 0 <= m <= 1,
+        coords[{x: int, y: int},{x: int, y: int}]
+    }
+
+getNeighborhood( point.x, point.y );
+isNotWhite( index );
+

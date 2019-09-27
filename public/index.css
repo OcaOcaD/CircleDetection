@@ -1,0 +1,113 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+html {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #004F53;
+  overflow-x: scroll;
+}
+
+main {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100vw;
+  height: 250px;
+  background-color: #1d1d1b;
+  margin-bottom: 100px;
+}
+
+main .title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 85%;
+  color: red;
+}
+
+main .title h1 {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-size: 70px;
+  color: #12F5FE;
+}
+
+main select {
+  height: 40px;
+  width: 240px;
+  border: 1px solid #B4FCFF;
+}
+
+.p5Canvas {
+  position: relative;
+  border: 2px solid #12F5FE;
+  overflow-x: scroll;
+}
+
+button {
+  height: 40px;
+  width: 240px;
+  background-color: transparent;
+  color: #12F5FE;
+  border: 2px solid #12F5FE;
+  margin: 10px;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+button:hover {
+  background-color: #12F5FE;
+  color: #004F53;
+}
+/*# sourceMappingURL=index.css.map */

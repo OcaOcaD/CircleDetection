@@ -1,0 +1,31 @@
+entradas:
+m //pendiente
+coords  //coordenadas [{x,y},{...},{xn,yn}]
+//Inicio
+si m != 0 && m != 1
+    vecindario = buscarVecindario//buscar alrededores. 9 pixeles
+    por cada pixel en vecindario
+        si... alguno de los 9 pixeles vecindario no es negro
+            obstáculo = true
+        else
+            //continua
+        fin si
+    fin checar pixeles vecindario
+    si !obstáculo
+        //Linea correcta
+        agregarArista(  )   //Agregar arista del vertice con centro inical hasta el vertice con centro en el punto final
+sino
+    //La linea es recta +   |   __
+    por cada coord en coords
+        si... el pixel coord x,y no es negro
+            obstáculo = true
+        else
+            //continua
+        fin si
+    si !obstáculo
+        //Linea correcta
+        agregarArista(  )   //Agregar arista del vertice con centro inical hasta el vertice con centro en el punto final
+finsi
+
+
+        
