@@ -56,3 +56,26 @@ main{
                 color: $db;
             }
         }
+
+.closePoints{
+    @include flexCenter( column );
+    max-width: 85%;
+    h1{
+        color: $b;
+    }
+    .distance{
+        @include flexCenter( row );
+    }
+    .points{
+        @include flexCenter( row );
+        justify-content: space-evenly;
+        h2{
+            color: $lb;
+        }
+        #fromtext, #totext{
+            margin-left: 75px;
+            margin-right: 75px;
+            color: white;
+        }
+    }
+}

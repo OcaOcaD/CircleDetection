@@ -1,28 +1,6 @@
 //given an x and y point. Returns the actual index of that pixel in the pixels[] array
 getIndex = ( x, y, w ) => (x +( y * w)) * 4;
 //If a pixel is black returns true
-// isBlack = ( img, index ) => {
-//     // console.log("index:   "+ index);
-//     let r = img.pixels[ index + 0 ];
-//     let g = img.pixels[ index + 1 ];
-//     let b = img.pixels[ index + 2 ];
-//     // console.log( "r "+r +"g "+g +"b "+b);
-
-//     if( r == g && g == b && r <= 171  )
-//         return true;
-//     else
-//         return false;
-// }
-// //Returns true if a pixel is NOT white
-// notWhite = ( img, index ) => {
-//     let r = img.pixels[ index + 0 ];
-//     let g = img.pixels[ index + 1 ];
-//     let b = img.pixels[ index + 2 ];
-//     // console.log( "r "+r +"g "+g +"b "+b);
-//     let media = (r + g + b) == 765 ? true : false;
-//     return media;
-// }
-//If a pixel is black returns true
 isBlack = ( img, index ) => {
     // console.log("index:   "+ index);
     let r = img.pixels[ index+0 ];
@@ -56,11 +34,16 @@ notRepeated = ( Xpot, Ypot, circlesFound, otherFigures ) => {
             return false;
         }
     }
-    for (let O of otherFigures) {
-        let dist = distancee( Xpot, Ypot, O.h, O.k );
-        if (  dist < O.getRadius() + 5 ){
-            //alredy part of another figure found
-            return false;
+    for (let o of otherFigures) {
+        let x1 = o.ropeA.x1;
+        let x2 = o.ropeA.x2;
+        let y1 = o.ropeB.y1;
+        let y2 = o.ropeB.y2;
+        tol = 10;
+        if( x1 - tol <= Xpot && Xpot <= x2 + tol ){
+            if( y1 - tol <= Ypot && Ypot <= y2 + tol ){
+                return false;
+            }
         }
     }
     return true;
@@ -361,6 +344,23 @@ isWhite = ( img, index ) => {
     return ans;
 }
 
+//INSIDE OBSTACLE
+insideObstacle = ( obstacles, px, py ) => {
+    for (const o of obstacles) {
+        let x1 = o.ropeA.x1;
+        let x2 = o.ropeA.x2;
+        let y1 = o.ropeB.y1;
+        let y2 = o.ropeB.y2;
+        tol = 10;
+        if( x1 - tol <= px && px <= x2 + tol ){
+            if( y1 - tol <= py && py <= y2 + tol ){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 //Check pixel
 checkPixel = ( img, x, y ) => {
     //True if not an obnstacle
@@ -368,7 +368,7 @@ checkPixel = ( img, x, y ) => {
     let index = getIndex( x, y, img.width );
     // console.log("INDEX");
     // console.log(index);
-    if( isWhite( img, index ) ){    //if not white return true
+    if( isWhite( img, index ) || insideObstacle( img.someFigure, x, y ) ){    //if not white return true
         // console.log("is white");    
         // console.log("painted something: "+ x +" , "+ y)
         // setP( img, index, 0, 255, 1 );
@@ -403,3 +403,4 @@ lineChecked = ( paths, oname, dname ) => {
     // console.log("No pos no")
     return false;
 }
+

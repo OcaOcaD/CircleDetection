@@ -14,6 +14,71 @@ let graph = new Graph;
 //     console.log(gtest);
 // }
 // console.log(graph);
+
+
+
+//
+viewAsTree = ( circles ) => {
+    var mt = [];
+    for (const c of circles) {
+        let name = gn( c.h, c.k );
+        let radius = c.radius;
+        console.log(name);
+        let sons = [];
+        let gnode = graph.getNode( name );
+        console.log("EDGES OF " + name);
+        for (const e of gnode.edge) {
+            sonrad = e.circle.radius;
+            console.log(e);
+            let sonInfo = {
+                text: e.name + " => r : " + sonrad,
+                state: {
+                    expanded: false
+                },
+            }
+            sons.push( sonInfo );
+        }
+        let node = {
+            text: "Circle " + name + " => r : " + radius,
+            state: {
+                expanded: false
+            },
+            nodes: sons
+        }
+        mt.push( node );
+    }
+    
+    $('#treeview').treeview({data: mt});
+}
+
+//
+closestPair = () => {
+    let fromtext;
+    let totext;
+    let minDist = Infinity;
+    for (const c of img.circlesFound) {
+        for (const d of img.circlesFound) {
+            if( c != d ){
+                let dist =  distancee( c.h, c.k, d.h, d.k );
+                if( dist < minDist ){
+                    fromtext = gn(c.h, c.k) + " => r: " + c.radius;
+                    totext   = gn(d.h, d.k) + " => r: " + d.radius;
+                    minDist  = dist;
+                }
+
+            }
+        }
+    }
+    //Something
+    $("#fromtext").html(fromtext);
+    $("#totext").html(totext);
+    $("#distance").html(minDist);
+}
+
+
+
+
+
 var sketch = (p) => {
     p.setup = () => {
         console.log("SETUP DRAWING");
@@ -23,7 +88,7 @@ var sketch = (p) => {
     p.newDrawing = ( data ) => {
         //Recieve data and create a original canvas load the image and a ;
         canvasX = data.x; canvasY = data.y;    imageName = data.n;        //Receiving info
-        p.createCanvas(canvasX, canvasY);                                   //Canvas
+        p.createCanvas(canvasX, canvasY);       //Canvas
         orImg = p.loadImage("src/img/"+ imageName +".png", p.saveButton);   //Original image
         img   = p.loadImage("src/img/"+ imageName +".png", p.drawImage );   //to Modify
         p.noLoop();
@@ -32,7 +97,13 @@ var sketch = (p) => {
         p.image( img, 0, 0 );
         console.log(img);
         img.loadPixels();
-        analize( img );       
+        analize( img );   
+        p.circle( 600, 600, 500 );
+        // console.log("AI BAN LOS OBST")
+        // for (const obstacle of img.someFigure) {
+        //     console.log(obstacle);
+        //     obstacle.buildCoordinates( img );
+        // }    
         outputData( img );
         //Visited ones
         let paths = [];
@@ -170,10 +241,19 @@ var sketch = (p) => {
         // }
 
         //Update the pixels and see the magic
-        img.updatePixels();
         
+        img.updatePixels();
         p.background( img );
-        // redraw();
+        // if( img.someFigure.length > 0 ){
+        //     p.background()
+        //     for (const ob of img.someFigure) {
+        //         p.fill( 255, 200, 100 );
+        //         p.stroke( 255, 200, 100 );
+        //         // p.circle( ob.h, ob.k, ob.radius*2 );
+        //         p.rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2, ob.ropeB.y2 );
+        //     }
+        // }
+        
         //The good ones canvas
         var goodOnes = (gO) => {
             console.log( img )
@@ -192,13 +272,43 @@ var sketch = (p) => {
                 b_o.mousePressed( function(){
                     p.save(clean, "Clean_"+imageName+".png");
                 } );
-                let cont = 0;
-                for (const cirkulo of img.circlesFound) {
+                // let cont = 0;
+                // for (const cirkulo of img.circlesFound) {
                     
-                    gO.createElement('h3', cont);
-                    gO.createElement('p', cirkulo.h + ", " + cirkulo.k + ' RADIO => '+ cirkulo.radius);
-                    cont++;
+                //     gO.createElement('h3', cont);
+                //     gO.createElement('p', cirkulo.h + ", " + cirkulo.k + ' RADIO => '+ cirkulo.radius);
+                //     cont++;
+                // }
+                let sortc = img.circlesFound;
+                console.log("DESORDENADAS");
+                for (const i in sortc) {
+                    const first = sortc[i];
+                    console.log( first.radius );
                 }
+                let temp;
+                for (var some = 0; some < sortc.length; some++) {
+                    for (var i = 0; i < sortc.length-1; i++) {
+                        let j = i+1;
+                        let first = sortc[i];
+                        let second = sortc[j];
+                        // console.log( i + " -> " + j );
+                        // console.log( first.radius + " -> " + second.radius );
+                        if ( first.radius > second.radius ){
+                            console.log("MOVIN: " + first.radius +" por "+ second.radius );
+                            temp = sortc[i];
+                            sortc[i] = sortc[j];
+                            sortc[j] = temp;
+                        }
+                    }
+                }
+                console.log("ORDENADAS");
+                for (const kk in sortc) {
+                    const first = sortc[kk];
+                    console.log( first.radius );
+                }
+                viewAsTree( sortc );
+                closestPair();
+                console.log(graph);
                 gO.noLoop();
             }
             gO.draw = (  ) => {
@@ -209,8 +319,13 @@ var sketch = (p) => {
                     gO.stroke( 18, 245, 254 ); //b
                     gO.circle( c.h, c.k, c.radius*2 );
                 }
+                for (const ob of img.someFigure) {
+                    gO.fill( 255, 200, 100 );
+                    gO.stroke( 255, 200, 100 );
+                    // ob.circle( ob.h, ob.k, ob.radius*2 );
+                    gO.rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2-ob.ropeA.x1, ob.ropeB.y2-ob.ropeA.y1 );
+                }
             }
-            
         }
         //Event lister to download modified
         let b_o = p.createButton("Get modified");

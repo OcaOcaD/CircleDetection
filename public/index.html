@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- TREE VIEW STUFF -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-treeview/1.2.0/bootstrap-treeview.min.css" />
+    <!-- TREE VIEW STUFF -->
     <link rel="stylesheet" href="index.css">
     <title>Práctica 1</title>
 </head>
@@ -32,6 +39,24 @@
             </select>
         </div>
     </main>
+    <div id="closePoints" class="closePoints">
+        <div class="distance">
+            <h1 class="closePoints__title">Closest Pair is &nbsp;</h1>
+            <h2 id="distance">&nbsp;</h2>
+            <h1>&nbsp; pixels.</h1>
+        </div>
+        <div class="points">
+            <div class="from">
+                <h2>From: </h2><h2 id="fromtext">  </h2>
+            </div>
+            <i class="fas fa-arrows-alt-h"></i>
+            <div class="to">
+                <h2>to: </h2><h2 id="totext">  </h2>
+            </div>
+        </div>
+    </div>
+    <div id="treeview"></div>
+
     <script>
     handleSelectChange = (ele) => {
         imageName = ele.value;
@@ -44,6 +69,7 @@
         }
     }
     </script>
+    <script src = "src/createTreeView.js"></script>
     <script src = "utilities/p5/p5/empty-example/p5.js" ></script>
     <script src = "utilities/p5/p5/empty-example/p5.dom.js" ></script>
     <script src = "src/pCircle.js"></script>
@@ -56,5 +82,10 @@
     <script src = "utilities/socket.io.dev.js"></script>
     <!-- <script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script> -->
     <script src = "src/sketch.js" ></script>
+    <script>
+            
+            
+    </script>
+
 </body>
 </html>
