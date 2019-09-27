@@ -61,12 +61,26 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
             ymin = y1;
             xmax = x2;
             xmin = x1;
+            if( ymin > ymax ){
+                ymax = y1;
+                ymin = y2;
+                xmax = x1;
+                xmin = x2;
+            }
         }else{
             ymax = y1;
             ymin = y2;
             xmax = x1;
             xmin = x2;
+            if( ymin > ymax ){
+                ymax = y2;
+                ymin = y1;
+                xmax = x2;
+                xmin = x1;
+            }
         }
+        console.log("ymax : " + ymax)
+        console.log( "ymin : " +  ymin)
         //Calculamos la pendiente
         m = (ymax - ymin) / ( xmax - xmin );
         for( let y_c = ymin; y_c < ymax; y_c++ ){
@@ -89,14 +103,19 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
 setup = () => {
     // let hola;
     createCanvas( 500, 500 );
-    a = getCoordinates( 100, 400, 600, 80 );
+    // a = getCoordinates( 100, 400, 600, 80 );
 
-    b = getCoordinates( 100, 400, 600, 80 );
-    console.log(a);
+    b = getCoordinates( 349, 313, 411, 72 );
+    c = getCoordinates( 411, 72, 349, 313 );
+    console.log(b);
+    console.log(c);
 }
 draw = () => {
     background( 69 );
-    stroke(0,0,255);
-    line( 100, 400, 490, 80 );
+    // stroke(0,0,255);
+    // line( 100, 400, 490, 80 );
+    stroke(0,255,255);
+    line( 349, 313, 411, 72 );
+    line( 411, 72, 349, 313 );
     
 }

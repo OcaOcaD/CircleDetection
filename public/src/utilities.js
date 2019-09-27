@@ -29,9 +29,13 @@ isBlack = ( img, index ) => {
     let g = img.pixels[ index+1 ];
     let b = img.pixels[ index+2 ];
     // console.log( "r "+r +"g "+g +"b "+b);
-    let media = (r + g + b) / 3
-    let ans = ( media <= 254 && media != 120 )  ? true : false;
-    return ans;
+    if( r == g  && g == b ){
+        let media = (r + g + b) / 3;
+        let ans = ( media <= 254 && media != 120 ) ? true : false;
+        return ans;
+    }else{
+        return false;
+    }
 }
 //Returns true if a pixel is NOT white
 notWhite = ( img, index ) => {
@@ -39,7 +43,8 @@ notWhite = ( img, index ) => {
     let g = img.pixels[ index+1 ];
     let b = img.pixels[ index+2 ];
     // console.log( "r "+r +"g "+g +"b "+b);
-    let media = (r + g + b) != 765 && (r + g + b) != 240;
+    // let media = (r + g + b) != 765 && (r + g + b) != 240;
+    let media = (r + g + b) != 765;
     return media;
 }
 //Compares a black point with actual circles and return true if is not a part of a circle
@@ -195,7 +200,7 @@ blackAround = ( crossEdges, img, radius ) => {
                     index = getIndex( point.spot_x, point.spot_y, img.width );
                     if ( isBlack( img, index ) ){
                         //Cant be black dots around a circle
-                        setP( img, index, 50, 55, 255 );
+                        // setP( img, index, 50, 55, 255 );
                         return true;
                     }
                 }else{
@@ -275,12 +280,26 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
             ymin = y1;
             xmax = x2;
             xmin = x1;
+            if( ymin > ymax ){
+                ymax = y1;
+                ymin = y2;
+                xmax = x1;
+                xmin = x2;
+            }
         }else{
             ymax = y1;
             ymin = y2;
             xmax = x1;
             xmin = x2;
+            if( ymin > ymax ){
+                ymax = y2;
+                ymin = y1;
+                xmax = x2;
+                xmin = x1;
+            }
         }
+        // console.log("ymax : " + ymax)
+        // console.log( "ymin : " +  ymin)
         //Calculamos la pendiente
         m = (ymax - ymin) / ( xmax - xmin );
         for( let y_c = ymin; y_c < ymax; y_c++ ){
@@ -338,7 +357,7 @@ isWhite = ( img, index ) => {
     let b = img.pixels[ index+2 ];
     // console.log( "r "+r +"g "+g +"b "+b);
     let media = (r + g + b) / 3
-    let ans = ( media <= 240 )  ? false : true;
+    let ans = ( media >= 255 )  ? true : false;
     return ans;
 }
 
