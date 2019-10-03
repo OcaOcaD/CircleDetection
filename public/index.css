@@ -87,6 +87,7 @@ main select {
   height: 40px;
   width: 240px;
   border: 1px solid #B4FCFF;
+  color: black;
 }
 
 .p5Canvas {

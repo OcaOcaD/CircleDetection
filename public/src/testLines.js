@@ -9,15 +9,13 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
     line( x1, y1, x2, y2 );
     //Calculamos las coordenadas 
     if( Math.abs(y2 - y1) < Math.abs(x2 - x1) ){
-        let x_c;
-        console.log("Calculando las y");
+        let y_c;
         //La diferencia de X es mayor calculamos las y
         if( y2 >= y1 ){
             ymax = y2;
             ymin = y1;
             xmax = x2;
             xmin = x1;
-            console.log("caso 1");
             if( xmax < xmin ){
                 ymax = y1;
                 ymin = y2;
@@ -29,7 +27,6 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
             ymin = y2;
             xmax = x1;
             xmin = x2;
-            console.log("caso 2");
             if( xmax < xmin ){
                 ymax = y2;
                 ymin = y1;
@@ -37,8 +34,6 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
                 xmin = x1;
             }
         }
-        console.log("xmax : " + xmax)
-        console.log( "xmin : " +  xmin)
         //Calculamos la pendiente
         m = (ymax - ymin) / ( xmax - xmin );
         // y-y1 = m( x - x1 )
@@ -53,9 +48,8 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
         }
         
     }else{
-        //La diferencia de Y es mayor. Calculamos las x
         let x_c;
-        console.log("Calculando las x");
+        //La diferencia de Y es mayor. Calculamos las x
         if( x2 >= x1 ){
             ymax = y2;
             ymin = y1;
@@ -79,8 +73,6 @@ getCoordinates = ( x1, y1, x2, y2 ) => {
                 xmin = x1;
             }
         }
-        console.log("ymax : " + ymax)
-        console.log( "ymin : " +  ymin)
         //Calculamos la pendiente
         m = (ymax - ymin) / ( xmax - xmin );
         for( let y_c = ymin; y_c < ymax; y_c++ ){
@@ -107,8 +99,6 @@ setup = () => {
 
     b = getCoordinates( 349, 313, 411, 72 );
     c = getCoordinates( 411, 72, 349, 313 );
-    console.log(b);
-    console.log(c);
 }
 draw = () => {
     background( 69 );

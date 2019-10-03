@@ -39,7 +39,7 @@ notRepeated = ( Xpot, Ypot, circlesFound, otherFigures ) => {
         let x2 = o.ropeA.x2;
         let y1 = o.ropeB.y1;
         let y2 = o.ropeB.y2;
-        tol = 10;
+        tol = 0;
         if( x1 - tol <= Xpot && Xpot <= x2 + tol ){
             if( y1 - tol <= Ypot && Ypot <= y2 + tol ){
                 return false;
@@ -220,7 +220,6 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
             ymin = y1;
             xmax = x2;
             xmin = x1;
-            console.log("caso 1");
             if( xmax < xmin ){
                 ymax = y1;
                 ymin = y2;
@@ -232,7 +231,6 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
             ymin = y2;
             xmax = x1;
             xmin = x2;
-            console.log("caso 2");
             if( xmax < xmin ){
                 ymax = y2;
                 ymin = y1;
@@ -366,18 +364,11 @@ checkPixel = ( img, x, y ) => {
     //True if not an obnstacle
     //False if obstacle 
     let index = getIndex( x, y, img.width );
-    // console.log("INDEX");
-    // console.log(index);
     if( isWhite( img, index ) || insideObstacle( img.someFigure, x, y ) ){    //if not white return true
-        // console.log("is white");    
-        // console.log("painted something: "+ x +" , "+ y)
         // setP( img, index, 0, 255, 1 );
         return true;
     }else{
-        console.log("Some obstacle found");
-        console.log("painted something: "+ x +" , "+ y)
         setP( img, index, 255, 0, 0 );
-    
         return false;
     }
 }

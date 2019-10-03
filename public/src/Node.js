@@ -1,6 +1,5 @@
 class Node{
     constructor( circle ){
-        console.log("Creando nuevo nodo");
         this.name = gn(circle.h, circle.k);
         this.circle = circle ;
         this.edge = [];
