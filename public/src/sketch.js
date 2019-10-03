@@ -4,11 +4,11 @@ let canvasY = 100;
 var socket = io.connect('http://localhost:3000');
 let graph = new Graph;
 //
-viewAsTree = ( circles ) => {
+viewAsTree = ( nodes ) => {
     var mt = [];
-    for (const c of circles) {
-        let name = gn( c.h, c.k );
-        let radius = c.radius;
+    for (const c of nodes) {
+        let name = gn( c.circle.h, c.circle.k );
+        let radius = c.circle.radius;
         let sons = [];
         let gnode = graph.getNode( name );
         for (const e of gnode.edge) {
@@ -84,22 +84,24 @@ drawClosest = ( g, canvas ) => {
     // gO.noLoop();
 }
 //
-deleteVertex = ( mx, my ) => {
-    for (const c of graph.nodes) {
+deleteVertex = ( mx, my, g ) => {
+    console.log( "ERASED :" )
+    console.log(g)
+    for (const c of g.nodes) {
         if( c!= null ){
             if( distancee( c.circle.h, c.circle.k, mx, my ) < c.circle.radius + 5 ){
                 var txt;
                 var r = confirm("Quieres borrar el vertice: " + c.circle.h + ", "+ c.circle.k);
                 if (r == true) {
                     let name = gn( c.circle.h, c.circle.k );
-                    graph.deleteNode( name );
+                    g.deleteNode( name );
                 } else {
                     window.alert("NOTHING DONE");
                 }
             }
         }
     }
-    return graph;
+    return g;
 }
 //
 buildGraph = ( img ) => {
@@ -124,7 +126,7 @@ buildGraph = ( img ) => {
         }
         let originNode = bg.getNode( oname );
         // console.log( originNode );
-        let destinyNode;
+        let destinyNode
 
         for (const tod of img.circlesFound) {
             //Check the destiny node
@@ -132,7 +134,7 @@ buildGraph = ( img ) => {
                 //Es el mismo jaja
             }else{
                 let dname = gn( tod.h, tod.k );
-                obstacle.state = false;
+                obstacle.state = false
                 //Alredy checkeded?
                 if( !lineChecked( paths, oname, dname ) ){
                     /***
@@ -140,32 +142,32 @@ buildGraph = ( img ) => {
                      * 
                      ***/
                     //Create the destiny node if it doesn't exist
-                    let nodeExists = bg.getNode( dname );
+                    let nodeExists = bg.getNode( dname )
                     if( !nodeExists ){  
                         //The destiny Node doesn't exist. Create it
-                        dname = bg.addNode( tod );
+                        dname = bg.addNode( tod )
                     }
-                    destinyNode = bg.getNode( dname );
+                    destinyNode = bg.getNode( dname )
                     //C
                     let path = {
                         o: oname,
                         d: dname
                     }
-                    paths.push( path );
+                    paths.push( path )
                     //Get the coordin
                     let details = getLineCoords( dot.h, dot.k, tod.h, tod.k );
                     if( details.m != 0 && details.m != "Infinity" ){
                         //The line is a diagonal
                         for (const point of details.c) {
                             //Look for the neighborhood
-                            let neigh = getNeighborhood( point.x, point.y );
+                            let neigh = getNeighborhood( point.x, point.y )
                             //If any of the neighborhood pixels aren't white. Then it is an obstacle
                             for (const npixel of neigh) {
                                 //Check if the pixel isn't inside a the origin circle
                                 if( !insideCircles(dot, tod, npixel.x, npixel.y, 5) ){
                                     // console.log("not part of the circle " + npixel.x +" , "+ npixel.y )
                                     //Nos comparing a pixel aprt of any of both circles
-                                    obstacle.state = ( checkPixel( img, npixel.x, npixel.y ) ) ? false : true;
+                                    obstacle.state = ( checkPixel( img, npixel.x, npixel.y ) ) ? false : true
                                     if ( obstacle.state ) {break;}    //If it's an obstacle in any point. Stop chequing the line.
                                 }//else... is inside the a circle.. don't check if obstacle
                             }//all Pixels in the neighborhood of this coordinate
@@ -177,7 +179,7 @@ buildGraph = ( img ) => {
                             if( !insideCircles(dot, tod, point.x, point.y, 5) ){
                                 // console.log("not part of the circle " + point.x +" , "+ point.y )
                                 //Nos comparing a pixel aprt of any of both circles
-                                obstacle.state = ( checkPixel( img, point.x, point.y ) ) ? false : true;
+                                obstacle.state = ( checkPixel( img, point.x, point.y ) ) ? false : true
                                 if ( obstacle.state ) { break;}    //If it's an obstacle in any point. Stop chequing the line.
                             }//else... is inside the a circle.. don't check if obstacle
                         }//all coordinates in the line
@@ -189,8 +191,8 @@ buildGraph = ( img ) => {
                      * 
                      */
                     if( !obstacle.state  ){
-                        goodLines.push( details );
-                        originNode.addEdge( destinyNode );
+                        goodLines.push( details )
+                        originNode.addEdge( destinyNode )
                     }
                 }                 
             }//else... is the same circle
@@ -200,15 +202,14 @@ buildGraph = ( img ) => {
 }
 //
 drawEdges = ( g, i, canvas ) => {
-    
     for (const n of g.nodes) {
         if( n!= null ){
             for (const e of n.edge) {
                 if( g.getNode( e.name ) != null ){
-                    let coords = getLineCoords( n.circle.h, n.circle.k, e.circle.h, e.circle.k );
-                    let c = coords.c;
+                    let coords = getLineCoords( n.circle.h, n.circle.k, e.circle.h, e.circle.k )
+                    let c = coords.c
                     for (const dot of c) {
-                        let index = getIndex( dot.x, dot.y, i.width );
+                        let index = getIndex( dot.x, dot.y, i.width )
                         setP( i, index, 0, 79, 83 );
                     }
                 }
@@ -219,11 +220,20 @@ drawEdges = ( g, i, canvas ) => {
     i.updatePixels();
     canvas.background(i);
     for (const ob of i.someFigure) {
-        canvas.fill( 255, 255, 255, 150 );
-        canvas.stroke( 255, 255, 255, 150 );
-        
+        canvas.fill( 255, 255, 255, 150 )
+        canvas.stroke( 0, 255, 255, 150 )
+        let tol = 5
+        ob.ropeA.x1 -= tol
+        ob.ropeA.x2 += tol
+        ob.ropeA.y1 -= tol
+        ob.ropeA.y2 += tol
+
+        ob.ropeB.x1 -= tol
+        ob.ropeB.x2 += tol
+        ob.ropeB.y1 -= tol
+        ob.ropeB.y2 += tol
         // ob.circle( ob.h, ob.k, ob.radius*2 );
-        canvas.rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2-ob.ropeA.x1, ob.ropeB.y2-ob.ropeA.y1 );
+        canvas.rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2-ob.ropeA.x1, ob.ropeB.y2-ob.ropeA.y1 )
     }
 }
 //PLACE NAMES OF CIRCLES
@@ -241,20 +251,50 @@ drawText = ( g, canvas ) => {
 }
 setEventListeners = ( canvas ) => {
     canvas.mouseClicked = ( event ) => {
-        let ng = deleteVertex( event.layerX, event.layerY )
-        // Create a clean image and draw the dges of the new graph
-        canvas.loadImage("src/img/"+ imageName +".png", ( i ) =>{
-            i.loadPixels()
-            drawGraph( ng, i, canvas )
-        });
+        let gnodes = graph.nodes.length
+        graph = deleteVertex( event.layerX, event.layerY, graph )
+        if ( gnodes != graph.nodes.length ){
+            // Create a clean image and draw the dges of the new graph
+            canvas.loadImage("src/img/"+ imageName +".png", ( i ) =>{
+                i.loadPixels()
+                drawGraph( graph, i, canvas )
+                sortAndShow( graph )
+            });
+        }
     }
+}
+//
+sortAndShow = ( g ) => {
+    console.log("SORTING: ")
+    console.log(g)
+    let nodes = g.nodes;
+    let temp;
+    for (var some = 0; some < nodes.length; some++) {
+        for (var i = 0; i < nodes.length-1; i++) {
+            let j = i+1;
+            let first = nodes[i].circle;
+            // console.log("first: ")
+            // console.log( first )
+            let second = nodes[j].circle;
+            // console.log("second: ")
+            // console.log( second )
+            if ( first.radius > second.radius ){
+                temp = nodes[i];
+                nodes[i] = nodes[j];
+                nodes[j] = temp;
+            }
+        }
+    }
+    viewAsTree( nodes );
 }
 //
 drawGraph = ( g, i, canvas ) => {
     drawEdges( g, i, canvas )
     drawClosest( g, canvas )
     drawText( g, canvas )
+    // sortAndShow( g )
 }
+
 /****SET UP THE SKETCH */
 var sketch = (p) => {
     p.setup = () => {
@@ -279,10 +319,8 @@ var sketch = (p) => {
         graph = buildGraph( img )
         //Update the pixels and see the magic
         drawGraph( graph, img, p )
-
-
-
-
+        sortAndShow( graph )
+        // p.noLoop();
 
 
         //The good ones canvas
@@ -302,26 +340,9 @@ var sketch = (p) => {
                 let b_o = p.createButton("Get clean");
                 b_o.mousePressed( function(){
                     p.save(clean, "Clean_"+imageName+".png");
-                } );
-
-                let sortc = img.circlesFound;
-                let temp;
-                for (var some = 0; some < sortc.length; some++) {
-                    for (var i = 0; i < sortc.length-1; i++) {
-                        let j = i+1;
-                        let first = sortc[i];
-                        let second = sortc[j];
-                        if ( first.radius > second.radius ){
-                            temp = sortc[i];
-                            sortc[i] = sortc[j];
-                            sortc[j] = temp;
-                        }
-                    }
-                }
-                viewAsTree( sortc );
+                } );               
             }
             gO.draw = () => {
-
                 gO.background( 29, 29, 27 );   //g
                 for (const c of img.circlesFound) {
                     gO.fill( 0, 79, 83);    //db

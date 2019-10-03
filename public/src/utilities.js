@@ -349,7 +349,7 @@ insideObstacle = ( obstacles, px, py ) => {
         let x2 = o.ropeA.x2;
         let y1 = o.ropeB.y1;
         let y2 = o.ropeB.y2;
-        tol = 10;
+        tol = 0;
         if( x1 - tol <= px && px <= x2 + tol ){
             if( y1 - tol <= py && py <= y2 + tol ){
                 return true;

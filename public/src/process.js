@@ -163,6 +163,16 @@ drawRopes = ( img, x, y ) => {
             img.circlesFound.push( c );         //Added to the circles array
         }else{
             //Some obstacle found
+            let tol = 0;
+            c.ropeA.x1 -= tol
+            c.ropeA.x2 += tol
+            c.ropeA.y1 -= tol
+            c.ropeA.y2 += tol
+    
+            c.ropeB.x1 -= tol
+            c.ropeB.x2 += tol
+            c.ropeB.y1 -= tol
+            c.ropeB.y2 += tol
             img.someFigure.push( c );           //Added to the obstacles array
         }
     }else{

@@ -25,5 +25,7 @@ class Graph{
             }
         }
         this.graph[name] = null;
+        let aux = this.nodes.filter( (pInCheck) => pInCheck != null );
+        this.nodes = aux
     }
 }
