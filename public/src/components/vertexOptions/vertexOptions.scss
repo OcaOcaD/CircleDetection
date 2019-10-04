@@ -1,0 +1,78 @@
+@import "../../../variables";
+#vertexOptions{
+    @include flexCenter( column );
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    width: 1080px;
+    height: 720px;
+    height: auto;
+    padding: 50px;
+    z-index: 500;
+    background-color: $lb;
+    display: none;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    .h{
+        display: block;
+    }
+    h1{
+        order: 1;
+        color: $db;
+        width: auto;
+        text-align: center;
+        font-size: 60px;
+        margin: 10px;
+        padding: 0;
+    }
+    .vname{
+        order: 2;
+        color: $g;
+        width: auto;
+        text-align: center;
+        font-size: 40px;
+        margin: 10px;
+        padding: 0;
+    }
+    .voptions{
+        order: 3;
+        @include flexCenter( row );
+        justify-content: space-evenly;
+        width: 100%;
+        height: 350px;
+        border-color: $b;
+        border-width: 5px;
+        .voption{
+            width: calc( 80% / 3 );
+            width: 240px;
+            height: 100%;
+            color: $b;
+            margin: 0;
+            padding: 0;
+            background-color: $db;
+            transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+            &:hover{
+                color: $db;
+                border-color: $db;
+                background-color: $b;
+            }
+            h3{
+                margin: 0;
+                padding: 0;
+                color: inherit;
+            }
+        }
+        .cancel{
+            color: $db;
+            border-color: $db;
+            border-width: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+            &:hover{
+                color: $b;
+                border-color: $b;
+                background-color: $db;
+            }
+        }
+    }
+}

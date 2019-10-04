@@ -1,0 +1,126 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+#vertexOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  width: 1080px;
+  height: 720px;
+  height: auto;
+  padding: 50px;
+  z-index: 500;
+  background-color: #B4FCFF;
+  display: none;
+  justify-content: center;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#vertexOptions .h {
+  display: block;
+}
+
+#vertexOptions h1 {
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
+  color: #004F53;
+  width: auto;
+  text-align: center;
+  font-size: 60px;
+  margin: 10px;
+  padding: 0;
+}
+
+#vertexOptions .vname {
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
+  color: #1d1d1b;
+  width: auto;
+  text-align: center;
+  font-size: 40px;
+  margin: 10px;
+  padding: 0;
+}
+
+#vertexOptions .voptions {
+  -webkit-box-ordinal-group: 4;
+      -ms-flex-order: 3;
+          order: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 100%;
+  height: 350px;
+  border-color: #12F5FE;
+  border-width: 5px;
+}
+
+#vertexOptions .voptions .voption {
+  width: calc( 80% / 3);
+  width: 240px;
+  height: 100%;
+  color: #12F5FE;
+  margin: 0;
+  padding: 0;
+  background-color: #004F53;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+#vertexOptions .voptions .voption:hover {
+  color: #004F53;
+  border-color: #004F53;
+  background-color: #12F5FE;
+}
+
+#vertexOptions .voptions .voption h3 {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+
+#vertexOptions .voptions .cancel {
+  color: #004F53;
+  border-color: #004F53;
+  border-width: 5px;
+  background-color: transparent;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+#vertexOptions .voptions .cancel:hover {
+  color: #12F5FE;
+  border-color: #12F5FE;
+  background-color: #004F53;
+}
+/*# sourceMappingURL=vertexOptions.css.map */

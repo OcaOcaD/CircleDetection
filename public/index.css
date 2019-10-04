@@ -31,7 +31,22 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-color: #004F53;
-  overflow-x: scroll;
+}
+
+button {
+  height: 40px;
+  width: 240px;
+  background-color: transparent;
+  color: #12F5FE;
+  border: 2px solid #12F5FE;
+  margin: 10px;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+
+button:hover {
+  background-color: #12F5FE;
+  color: #004F53;
 }
 
 main {
@@ -90,26 +105,82 @@ main select {
   color: black;
 }
 
+.mainContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  min-width: 100vw;
+}
+
+.mainContainer .mainOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 300px;
+}
+
+.mainContainer .mainOptions h1 {
+  color: #B4FCFF;
+  font-size: 20px;
+}
+
+.mainContainer .mainOptions #treeview {
+  width: 100%;
+  color: #12F5FE;
+}
+
+.mainContainer .mainOptions #treeview ul li {
+  background-color: #1d1d1b;
+  border: 1px solid #B4FCFF;
+}
+
+.mainContainer .mainOptions .canvasZoom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.mainContainer .mainOptions .canvasZoom button {
+  width: 50%;
+}
+
 .p5Canvas {
   position: relative;
   border: 2px solid #12F5FE;
-  overflow-x: scroll;
-}
-
-button {
-  height: 40px;
-  width: 240px;
-  background-color: transparent;
-  color: #12F5FE;
-  border: 2px solid #12F5FE;
-  margin: 10px;
-  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out;
-  transition: background-color 0.3s ease-out, color 0.3s ease-out;
-}
-
-button:hover {
-  background-color: #12F5FE;
-  color: #004F53;
 }
 
 .closePoints {
