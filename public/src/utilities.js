@@ -242,7 +242,7 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
         m = (ymax - ymin) / ( xmax - xmin );
         //y-y1 = m( x - x1 )
         //y = m( x - xmax ) + ymax
-        for (let x_c = xmin; x_c < xmax; x_c++) {
+        for (let x_c = xmin; x_c <= xmax; x_c++) {
             y_c = m*( x_c - xmax ) + ymax;
             y_c = Math.floor( y_c );
             let coord = {
@@ -268,24 +268,24 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
                 xmin = x2;
             }
         }else{
-            ymax = y1;
-            ymin = y2;
-            xmax = x1;
-            xmin = x2;
+            ymax = y1
+            ymin = y2
+            xmax = x1
+            xmin = x2
             if( ymin > ymax ){
-                ymax = y2;
-                ymin = y1;
-                xmax = x2;
-                xmin = x1;
+                ymax = y2
+                ymin = y1
+                xmax = x2
+                xmin = x1
             }
         }
         // console.log("ymax : " + ymax)
         // console.log( "ymin : " +  ymin)
         //Calculamos la pendiente
         m = (ymax - ymin) / ( xmax - xmin );
-        for( let y_c = ymin; y_c < ymax; y_c++ ){
-            x_c = ( ( y_c - y1 ) / m  ) + x1;
-            x_c = Math.floor( x_c );
+        for( let y_c = ymin; y_c <= ymax; y_c++ ){
+            x_c = ( ( y_c - y1 ) / m  ) + x1
+            x_c = Math.floor( x_c )
             let coord = {
                 x: x_c,
                 y: y_c
@@ -304,18 +304,18 @@ getLineCoords = ( x1, y1, x2, y2 ) => {
 //
 getNeighborhood = ( x, y ) => {
     let spots = [];
-    let ystart = y-1;
-    let xstart = x-1;
+    let ystart = y-1
+    let xstart = x-1
     for (let i = ystart; i < ystart + 3; i++) {
         for (let j = xstart; j < xstart + 3; j++) {
             let spot = {
                 x: j,
                 y: i
             }       
-            spots.push( spot );
+            spots.push( spot )
         }
     }
-    return spots;
+    return spots
 }
 
 //Check if the pixel is not inside either the origi circle or the destiny circle
@@ -394,4 +394,6 @@ lineChecked = ( paths, oname, dname ) => {
     // console.log("No pos no")
     return false;
 }
+
+
 

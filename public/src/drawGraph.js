@@ -1,3 +1,7 @@
+var gg;
+var kk;
+var oh;
+var ok;
 //
 viewAsTree = ( nodes ) => {
     var mt = [];
@@ -78,23 +82,27 @@ drawClosest = ( g, canvas ) => {
     // gO.noLoop();
 }
 //
-showOptions = ( mx, my, g ) => {
-    for (const c of g.nodes) {
+showOptions = ( mx, my, g, can ) => {
+    // console.log(mx + "--" +my);
+    let found = false
+    for (let c of g.nodes) {
+        // console.log("checkin")
         if( c!= null ){
             if( distancee( c.circle.h, c.circle.k, mx, my ) < c.circle.radius + 5 ){
-                
+                // console.log("found")
+                found = true
                 $('#vertexOptions').show()
                 $('.vname').html(""+c.circle.h+", "+c.circle.k+"")
-                let h = "" + c.circle.h + ""
-                let k = "" + c.circle.k + ""
-                console.log("h->"+ h)
-                console.log("k->"+ k)
-                $('.vh').val(h).change()
-                $('.vk').val(k).change()
+                // console.log("shown")
+                gg = g;
+                kk = can;
+                oh = c.circle.h;
+                ok = c.circle.k;
             }
         }
     }
-    return g;
+    if( !found )
+        $('#vertexOptions').hide()
 }
 //
 buildGraph = ( img ) => {
@@ -245,33 +253,43 @@ drawText = ( g, canvas ) => {
 
 //
 addPredator = () => {
-    let vh = $(".vh")[0].value
-    let vk = $(".vk")[0].value
-    console.log(vh)
-    
+    $('#vertexOptions').hide()
+    let p = new Predator( oh, ok )
+    predators.push( p )
+}
 
+//
+drawGraph = ( g, i, canvas ) => {
+    g.buildEdgesCoordinates()
+    drawEdges( g, i, canvas )
+    drawClosest( g, canvas )
+    drawText( g, canvas )
+    console.log("New graph drawn")
+    console.log(g)
 }
 
 //
 deleteVertex = (  ) => {
-    let vh = $(".vh")[0].value
-    let vk = $(".vk")[0].value
-    console.log(vk)
-    // // var r = confirm("Quieres borrar el vertice: " + c.circle.h + ", "+ c.circle.k);
-    // // if (r == true) {
-    //     let name = gn( vh, vk );
-    //     graph.deleteNode( name );
-        
-    // // } else {
-    //     window.alert("NOTHING DONE");
+    $('#vertexOptions').hide()
+    // var r = confirm("Quieres borrar el vertice: " + oh + ", "+ ok);
+    // if (r == true) {
+    let name = gn( oh, ok );
+    gg.deleteNode( name );
+    console.log(gg)
+    graph = gg;
+    kk.loadImage("src/img/"+ imageName +".png", ( i ) => {
+        i.loadPixels()
+        drawGraph( graph, i, kk )
+        sortAndShow( graph )
+    });
+    // } else {
+        // window.alert("NOTHING DONE");
     // }
     // $('#vertexOptions').load('./src/components/vertexOptions/vertexOptions.html')
-    
-
 }
 
 //
 cancelOption = () => {
-    $('#vertexOptions').html("");
-    $('#vertexOptions').hide();
+    $('#vertexOptions').hide()
+
 }

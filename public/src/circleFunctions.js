@@ -1,5 +1,6 @@
 p5.Image.prototype.circlesFound = [];
 p5.Image.prototype.someFigure = [];
+
 //Paint the color of a given pixel of a given canvas
 setP = ( img, index, r, g, b ) => {
     img.pixels[index + 0] = r;
