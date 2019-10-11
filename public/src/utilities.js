@@ -65,7 +65,7 @@ distancee = ( x, y, xx, yy ) => {
 outputData = ( img ) => {
     console.log("MIS CIRCULOS FUERON:")
     console.log(img.circlesFound);
-    console.log("algunos obstaculos...")
+    console.log("algunos ovalos?...")
     console.log(img.someFigure)
     console.log("Analisis terminado ");
 }

@@ -16,17 +16,26 @@
 </head>
 <body>
     <div id="vertexOptions">
+            <button class="cancel" onclick="cancelOption()">
+                <i class="fas fa-times-circle fa-2x"></i>
+            </button>
             <h1>Vertex options</h1>
             <h2 class="vname"></h2>
             <div class="voptions">
                 <button class="voption" onclick="addPredator()" >
-                    <h3>Add predator</h3>
+                    <h3>Add predator<br>
+                        <i class="fab fa-freebsd fa-3x"></i>
+                    </h3>
                 </button>
-                <button class="voption" onclick="deleteVertex()" >
-                    <h3>Delete vertex</h3>
+                <button class="voption prey" onclick="addPrey()" >
+                    <h3>Add prey<br>
+                        <i class="fas fa-running fa-3x"></i>
+                    </h3>
                 </button>
-                <button class="voption cancel" onclick="cancelOption()" >
-                    <h3>Cancel</h3>
+                <button class="voption delete" onclick="deleteVertex()" >
+                    <h3>Delete vertex <br>
+                        <i class="fas fa-trash-alt fa-3x"></i>
+                    </h3>
                 </button>
             </div>
     </div>
@@ -54,7 +63,7 @@
             </select>
         </div>
     </main>
-    <div id="closePoints" class="closePoints">
+    <div id="closePoints" class="closePoints" style = " display: none ">
         <div class="distance">
             <h1 class="closePoints__title">Closest Pair is &nbsp;</h1>
             <h2 id="distance">&nbsp;</h2>
@@ -71,13 +80,21 @@
     </div>
     <div class="mainContainer">
         <div class="mainOptions">
+            <div class="canvasPlay">
+                <button id="play" class="play" onclick="canvasPlay()" >
+                    <i class="fas fa-play-circle fa-2x"></i>
+                </button>
+                <button id="pause" class="pause" onclick="canvasPause()" >
+                    <i class="fas fa-pause-circle fa-2x"></i>
+                </button>
+            </div>
             <h1>Zoom <i id="zoomN">100%</i></h1>
             <div class="canvasZoom">
                 <button onclick="changeZoom( -10 )">
-                    <i class="fas fa-minus-circle"></i>
+                    <i class="fas fa-minus-circle fa-2x"></i>
                 </button>
                 <button onclick="changeZoom( 10 )">
-                    <i class="fas fa-plus-circle"></i>
+                    <i class="fas fa-plus-circle fa-2x"></i>
                 </button>
             </div>
             <div id="treeview"></div>
@@ -120,6 +137,7 @@
     <script src = "./src/utilities.js"></script>
     <script src = "./src/process.js"></script>
     <script src = "./src/circleFunctions.js" ></script>
+    <script src = "./src/Prey.js"></script>
     <script src = "./src/Predator.js"></script>
     <script src = "./src/Line.js"></script>
     <script src = "./src/Graph.js"></script>

@@ -2,11 +2,14 @@ let canvasX = 100
 let canvasY = 100
 var socket = io.connect('http://localhost:3000')
 let graph = new Graph()
-let obstacles = []
 let predators = []
+let preys = []
 let img
 setEventListeners = () => {
-    mouseClicked = ( event ) => { showOptions( event.layerX, event.layerY, graph ) }
+    mouseClicked = ( event ) => {
+        if( mouseX > 0 && mouseY > 0 )
+            showOptions( event.layerX, event.layerY, graph ) 
+    }
 }
 //
 sortAndShow = ( g ) => {
@@ -30,7 +33,7 @@ drawImage = async ( img ) => {
     img.loadPixels()
     analize( img )
     outputData( img )
-    await buildGraph( img, graph )
+    await buildGraph( img )
         .then( ( g ) => { graph = g } )
     //Update the pixels and see the magic
     sortAndShow( graph )
@@ -39,11 +42,19 @@ drawImage = async ( img ) => {
 }
 draw = () => {
     background( 27, 27, 29, 10 )
-    // drawObstacles( obstacles )
     graph.draw()
     graph.text()
+    graph.drawClosestPair()
+    drawPreys()
     drawPredators( graph )
     movePredators( graph )
+    try {
+        
+        await
+        
+    } catch (error) {
+        
+    }
 }
 //BUTTONS
 saveButton = (orImg) =>{
@@ -55,12 +66,10 @@ createDownloadButtons = () => {
     let b_o = createButton("Download modified")
     b_o.mousePressed( () => { save(img, "Modified_"+imageName+".png") } )
 }
-//
-drawObstacles = ( obst ) => {
-    console.log("Drawing obst: ", obst)
-    for (const o of obst) {
-        console.log("something?")
-        setColor( grey, white )
-        point( o.x, o.y )
-    }
+canvasPlay = () => {
+    loop()
 }
+canvasPause = () => {
+    noLoop()
+}
+

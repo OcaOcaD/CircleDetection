@@ -24,11 +24,31 @@
   height: auto;
   padding: 50px;
   z-index: 500;
-  background-color: #B4FCFF;
+  background-color: #1d1d1b;
+  border: 5px solid #12F5FE;
   display: none;
   justify-content: center;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
+}
+
+#vertexOptions .cancel {
+  width: auto;
+  position: fixed;
+  right: 30px;
+  top: 30px;
+  color: #43000d;
+  border-color: #43000d;
+  border-width: 2px;
+  background-color: #ff0e3f;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+#vertexOptions .cancel:hover {
+  color: #ff0e3f;
+  border-color: #ff0e3f;
+  background-color: #43000d;
 }
 
 #vertexOptions .h {
@@ -39,7 +59,7 @@
   -webkit-box-ordinal-group: 2;
       -ms-flex-order: 1;
           order: 1;
-  color: #004F53;
+  color: #12F5FE;
   width: auto;
   text-align: center;
   font-size: 60px;
@@ -51,7 +71,7 @@
   -webkit-box-ordinal-group: 3;
       -ms-flex-order: 2;
           order: 2;
-  color: #1d1d1b;
+  color: white;
   width: auto;
   text-align: center;
   font-size: 40px;
@@ -109,18 +129,33 @@
   color: inherit;
 }
 
-#vertexOptions .voptions .cancel {
+#vertexOptions .voptions .prey {
   color: #004F53;
   border-color: #004F53;
   border-width: 5px;
-  background-color: transparent;
+  background-color: #B4FCFF;
   -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
   transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
 }
 
-#vertexOptions .voptions .cancel:hover {
+#vertexOptions .voptions .prey:hover {
   color: #12F5FE;
   border-color: #12F5FE;
   background-color: #004F53;
+}
+
+#vertexOptions .voptions .delete {
+  color: #ff0e3f;
+  border-color: #ff0e3f;
+  border-width: 5px;
+  background-color: #1d1d1b;
+  -webkit-transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+#vertexOptions .voptions .delete:hover {
+  color: #1d1d1b;
+  border-color: #1d1d1b;
+  background-color: #ff0e3f;
 }
 /*# sourceMappingURL=vertexOptions.css.map */

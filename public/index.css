@@ -152,12 +152,16 @@ main select {
   color: #12F5FE;
 }
 
+.mainContainer .mainOptions #treeview ul {
+  list-style: none;
+}
+
 .mainContainer .mainOptions #treeview ul li {
   background-color: #1d1d1b;
   border: 1px solid #B4FCFF;
 }
 
-.mainContainer .mainOptions .canvasZoom {
+.mainContainer .mainOptions .canvasZoom, .mainContainer .mainOptions .canvasPlay {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -174,7 +178,7 @@ main select {
   width: 100%;
 }
 
-.mainContainer .mainOptions .canvasZoom button {
+.mainContainer .mainOptions button {
   width: 50%;
 }
 

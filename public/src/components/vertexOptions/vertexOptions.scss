@@ -9,16 +9,33 @@
     height: auto;
     padding: 50px;
     z-index: 500;
-    background-color: $lb;
+    background-color: $g;
+    border: 5px solid $b;
     display: none;
     justify-content: center;
     transform: translate(-50%, -50%);
+    .cancel{
+        width: auto;
+        position: fixed;
+        right: 30px;
+        top: 30px;
+        color: $dr;
+        border-color: $dr;
+        border-width: 2px;
+        background-color: $r;
+        transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+        &:hover{
+            color: $r;
+            border-color: $r;
+            background-color: $dr;
+        }
+    }
     .h{
         display: block;
     }
     h1{
         order: 1;
-        color: $db;
+        color: $b;
         width: auto;
         text-align: center;
         font-size: 60px;
@@ -27,7 +44,7 @@
     }
     .vname{
         order: 2;
-        color: $g;
+        color: white;
         width: auto;
         text-align: center;
         font-size: 40px;
@@ -62,11 +79,11 @@
                 color: inherit;
             }
         }
-        .cancel{
+        .prey{
             color: $db;
             border-color: $db;
             border-width: 5px;
-            background-color: transparent;
+            background-color: $lb;
             transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
             &:hover{
                 color: $b;
@@ -74,5 +91,18 @@
                 background-color: $db;
             }
         }
+        .delete{
+            color: $r;
+            border-color: $r;
+            border-width: 5px;
+            background-color: $g;
+            transition: background-color 0.3s ease-out, color 0.3s ease-out, border-color 0.3s ease-out;
+            &:hover{
+                color: $g;
+                border-color: $g;
+                background-color: $r;
+            }
+        }
+        
     }
 }

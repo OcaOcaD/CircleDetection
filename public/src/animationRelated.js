@@ -26,3 +26,5 @@ handleMovement = ( coords, step ) => {
         y : coords[step].y
     }
 }
+/**/
+drawPreys = () => { preys.map( p => p.draw() ) }

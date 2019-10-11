@@ -16,74 +16,74 @@ getRadius = ( img, h, k ) => {
     //Messure radius in 4 directions from the center
     let radius = [];
     let crossEdges = [];
-    let cont;
-    let x;
-    let y;
-    let index;
+    let cont
+    let x
+    let y
+    let index
     //To the left
-    x = h;
-    y = k;
+    x = h
+    y = k
     index = getIndex( x, y, img.width );
-    cont = 0;    
+    cont = 0;   
     while( inside( x, img.width ) && isBlack( img, index ) ){
-        x--;
-        cont++;
-        index = getIndex( x, y, img.width );
+        x--
+        cont++
+        index = getIndex( x, y, img.width )
     }
-    let left = {};
-    left.x = x+1;
-    left.y = y;
-    left.edge = "left";
-    crossEdges.push( left );
-    radius.push( cont );
+    let left = {}
+    left.x = x+1
+    left.y = y
+    left.edge = "left"
+    crossEdges.push( left )
+    radius.push( cont )
     //To the right
-    x = h;
-    y = k;
-    index = getIndex( x, y, img.width );
-    cont = 0;
+    x = h
+    y = k
+    index = getIndex( x, y, img.width )
+    cont = 0
     while( inside( x, img.width ) && isBlack( img, index ) ){
-        x++;
-        cont++;
-        index = getIndex( x, y, img.width );
+        x++
+        cont++
+        index = getIndex( x, y, img.width )
     }
-    let right = {};
-    right.x = x-1;
-    right.y = y;
-    right.edge = "right";
-    crossEdges.push( right );
-    radius.push( cont );
+    let right = {}
+    right.x = x-1
+    right.y = y
+    right.edge = "right"
+    crossEdges.push( right )
+    radius.push( cont )
     //To the TOP
-    x = h;
-    y = k;
+    x = h
+    y = k
     index = getIndex( x, y, img.width );
-    cont = 0;
+    cont = 0
     while( inside( y, img.height ) && isBlack( img, index ) ){
-        y--;
-        cont++;
-        index = getIndex( x, y, img.width );
+        y--
+        cont++
+        index = getIndex( x, y, img.width )
     }
-    let top = {};
-    top.x = x;
-    top.y = y+1;
+    let top = {}
+    top.x = x
+    top.y = y+1
     top.edge = "top";
-    crossEdges.push( top );
-    radius.push( cont );
+    crossEdges.push( top )
+    radius.push( cont )
     //To the BOTTOM
-    x = h;
-    y = k;
-    cont = 0;
+    x = h
+    y = k
+    cont = 0
     index = getIndex( x, y, img.width );
     while( inside( y, img.height ) && isBlack( img, index ) ){
-        y++;
-        cont++;
-        index = getIndex( x, y, img.width );
+        y++
+        cont++
+        index = getIndex( x, y, img.width )
     }
-    let bottom = {};
-    bottom.x = x;
-    bottom.y = y-1;
-    bottom.edge = "bottom";
-    crossEdges.push( bottom );
-    radius.push( cont );
+    let bottom = {}
+    bottom.x = x
+    bottom.y = y-1
+    bottom.edge = "bottom"
+    crossEdges.push( bottom )
+    radius.push( cont )
     let figure = {
         type: '',
         radius: '',
@@ -94,16 +94,16 @@ getRadius = ( img, h, k ) => {
     let rr; //Real radius
     let suma = 0;
     for (let r of radius) {
-        suma += r;
+        suma += r
     }
-    rr = suma / (radius.length);
-    figure.radius = rr;
-    let ba = blackAround( crossEdges, img, rr );
-    figure.ba = ba;
+    rr = Math.floor(suma / (radius.length))
+    figure.radius = rr
+    let ba = blackAround( crossEdges, img, rr )
+    figure.ba = ba
     if( rr < 10 ){
-        return false;
+        return false
     }else{
-        return figure;
+        return figure
     }
     
 }

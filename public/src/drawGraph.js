@@ -27,57 +27,7 @@ viewAsTree = ( nodes ) => {
         }
         mt.push( node );
     }
-    
     $('#treeview').treeview({data: mt});
-}
-//
-closestPair = ( g ) => {
-    let fromtext;
-    let totext;
-    let minDist = Infinity;
-    for (const c of g.nodes) {
-        for (const d of g.nodes) {
-            if( c != null && d != null ){
-                if( c != d ){
-                    let dist =  distancee( c.circle.h, c.circle.k, d.circle.h, d.circle.k );
-                    if( dist < minDist ){
-                        fromtext = gn(c.circle.h, c.circle.k) + " => r: " + c.circle.radius;
-                        ftx = c.circle.h;
-                        fty = c.circle.k;
-                        totext   = gn(d.circle.h, d.circle.k) + " => r: " + d.circle.radius;
-                        ttx = d.circle.h;
-                        tty = d.circle.k;
-                        minDist  = dist;
-                    }
-    
-                }
-            }
-        }
-    }
-    let response = {
-        f: {
-            x: ftx,
-            y: fty
-        },
-        t: {
-            x: ttx,
-            y: tty
-        },
-    }
-    //Something
-    $("#fromtext").html(fromtext);
-    $("#totext").html(totext);
-    $("#distance").html(minDist);
-    return response;
-}
-//
-drawClosest = ( g ) => {
-    let pairs = closestPair( g );
-    stroke( 18, 245, 254 )
-    fill(  0, 79, 83 );
-    circle( pairs.f.x, pairs.f.y, 10 );
-    circle( pairs.t.x, pairs.t.y, 10 );
-    // gO.noLoop();
 }
 //
 showOptions = ( mx, my, g ) => {
@@ -102,36 +52,27 @@ showOptions = ( mx, my, g ) => {
         $('#vertexOptions').hide()
 }
 //
-buildGraph = ( img, ggg ) => {
+buildGraph = ( img ) => {
     return new Promise( async ( resolve, reject ) => {
         let paths = []
         //The good lines proobed that doesn't crash
-        console.log("Parameters graph", ggg)
         let tng = new Graph()
-        console.log("TOTALLY NEW: ", tng)
-        for (const nn of img.circlesFound) {
-            tng.addNode( nn )
-        }
+        for (const nn of img.circlesFound) { tng.addNode( nn ) }
         // console.log("Starting graph", bg)
         //Now see if there are crashes
         for (const dot of img.circlesFound) {
-            console.log("STARTING ONE")
             //For each circle found there'll be a Node
             let oname = gn( dot.h, dot.k )
             let originNode = tng.getNode( oname );
-            // console.log( originNode );
-
             for (const tod of img.circlesFound) {
                 //Check the destiny node
-                let valid = await validLine( img, dot, tod, paths )
+                await validLine( img, dot, tod, paths )
                     .then( async ( res )=> {
                         let img = res.img
                         let dot = res.origin
                         let tod = res.dest
                         let dname = gn( tod.h, tod.k )
-                        console.log("Valid line: ", oname, dname)
-                        /** */
-                        
+                        // console.log("Valid line: ", oname, dname)
                         //C
                         let path = {
                             o: oname,
@@ -142,9 +83,8 @@ buildGraph = ( img, ggg ) => {
                         // Promise finding Line coordinates
                         let middlecoords = await getLineCoords( dot.h, dot.k, tod.h, tod.k )
                         return middlecoords
-                        /** */
                     } )
-                    .catch( err=> console.log("Not valid: ",err) )
+                    // .catch( err=> console.log("Not valid: ",err) )
                     .then( async ( details ) => {
                         if( details ){
                             let slope = details.m
@@ -172,15 +112,15 @@ buildGraph = ( img, ggg ) => {
                         }
                     } )
                     .catch( err => {
-                        console.log("Obstacle found:", err, details.m)
+                        // console.log("Obstacle found:", err, details.m)
                     } )
                     .catch( (message) => {
                         console.log(message)
                     })
-                    console.log("JUST ENDED ONE")
+                    // console.log("JUST ENDED ONE")
             }//Destiny circle
         }//Origin circle
-        console.log("ENDED ALL")
+        // console.log("ENDED ALL")
         resolve ( tng );
     } )
     
@@ -203,11 +143,7 @@ drawEdges = ( g, i ) => {
                         let c = coords.c
                         for ( const dot of c ) {
                             let index = getIndex( dot.x, dot.y, i.width )
-                            // console.log( 
-                            //     img.pixels[index], 
-                            //     img.pixels[index+1],
-                            //     img.pixels[index+2]
-                            // )
+
                             setP( i, index, 0, 79, 83 )
                             i.updatePixels();
                             background(i);
@@ -249,20 +185,6 @@ notChecked = ( oname, dname, drawn ) => {
         }
     } )
 }
-//PLACE NAMES OF CIRCLES
-drawText = ( g ) => {
-    for (const c of g.nodes) {
-        if( c != null ){
-            textSize( 18 );
-            // fill( 29, 29, 27 );
-            // stroke( 0, 79, 83 );
-            stroke( 18, 245, 254 );
-            fill( 0, 79, 83 );
-            text( c.name, c.circle.h, c.circle.k + c.circle.radius);
-        }
-    }
-}
-
 //
 addPredator = () => {
     $('#vertexOptions').hide()
@@ -290,5 +212,8 @@ deleteVertex = () => {
 //
 cancelOption = () => {
     $('#vertexOptions').hide()
-
+}
+addPrey = () => {
+    let p = new Prey(oh, ok)
+    preys.push( p )
 }

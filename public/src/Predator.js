@@ -35,30 +35,21 @@ class Predator{
         let oy = this.originy
         let dx = this.destx
         let dy = this.desty
-        let actualx = this.destx
-        let actualy = this.desty
         let step = this.stage
-        console.log("________________________________________")
+        // console.log("________________________________________")
         let newSet = {}
-        let pCoords = getLineCoords( ox, oy, dx, dy )
+        getLineCoords( ox, oy, dx, dy )
             .then( (coordsResolved) => {
                 let coords = coordsResolved.c
-                if( ox == coords[ 0 ].x && oy == coords[ 0 ].y ){
-                    console.log("start normal....")
+                if( ox == coords[ 0 ].x && oy == coords[ 0 ].y )
                     newSet = handleMovement( coords, step )
-                }else{
-                    console.log("start backwards....")
+                else
                     newSet = handleBackMove( coords, step )
-                }
                 this.x = newSet.x
                 this.y = newSet.y
                 this.stage += 1
-                if( this.arrived( coords.length, this.stage ) ) {
-                    console.log( "DESTINATION CHANGED: ", this.destx, this.desty )
+                if( this.arrived( coords.length, this.stage ) )
                     this.pickPath( graph ) 
-                }else{
-                    console.log(this.x+","+this.y+" obviuously is not "+this.destx+","+this.desty)
-                }
             } )
     }
     pickPath = ( graph ) => {
@@ -83,7 +74,9 @@ class Predator{
     }
     //Drawing a "Star" in the position of the node
     draw = () => {
-        setColor( white, db )
+        setColor( white, b )
+        if( this.parked )
+            setColor( white, db )
         let angle = TWO_PI / this.peaks;
         let halfAngle = angle / 2.0;
         beginShape();

@@ -164,7 +164,7 @@ drawRopes = ( img, x, y ) => {
             img.circlesFound.push( c );         //Added to the circles array
         }else{
             //Some obstacle found
-            let tol = 0;
+            let tol = 10;
             c.ropeA.x1 -= tol
             c.ropeA.x2 += tol
             c.ropeA.y1 -= tol

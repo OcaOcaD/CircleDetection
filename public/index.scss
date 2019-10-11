@@ -66,18 +66,19 @@ main{
             width: 100%;
             color: $b;
             ul{
+                list-style: none;
                 li{
                     background-color: $g;
                     border: 1px solid $lb;
                 }
             }
         }
-        .canvasZoom{
+        .canvasZoom, .canvasPlay{
             @include flexCenter(row);
             width: 100%;
-            button{
-                width: 50%;
-            }
+        }
+        button{
+            width: 50%;
         }
     }
     #circleCircles{

@@ -4,7 +4,6 @@ class Graph{
         this.graph = {}
         this.name = ""
         this.nodes = []
-        console.log("New nodes", this.nodes)
     }
     addNode = ( node ) => { 
         //Adding the node to the graph   
@@ -60,12 +59,8 @@ class Graph{
         let min = Infinity
         for (const n of this.nodes) {
             for (const e of n.edge) {
-                // let cost = e.getCost()
-                // console.log(e.edgeCoords)
-                // console.log(e.edgeCoords.lenght)
                 for (const c of e.edgeCoords) {
                     let cost = c.length
-                    // console.log( n.name + "->" + e.name + " COST =" + cost )
                     if( cost < min )
                         min = cost
                 }
@@ -75,9 +70,10 @@ class Graph{
     }
     //Draw Circles and lines  of the graph
     draw(){
-        setColor( r, dr )
         for (const n of this.nodes) {
+            setColor( r, dr )
             circle( n.circle.h, n.circle.k, (n.circle.radius-1)*2 )
+            // setColor( db, db )
             for (const e of n.edge) {
                 line( n.circle.h, n.circle.k, e.circle.h, e.circle.k )
             }
@@ -85,24 +81,44 @@ class Graph{
     }
     text(){
         for (const c of this.nodes) {
-            if( c != null ){
-                textSize( 18 );
-                setColor( grey, white )
-                text( c.name, c.circle.h, c.circle.k + c.circle.radius);
+            setColor( grey, white )
+            textSize( 18 )
+            text( c.name, c.circle.h, c.circle.k + c.circle.radius)
+       }
+    }
+    drawClosestPair(){
+        let ax, ay, bx, by
+        let minDist = Infinity;
+        if ( this.nodes.length < 2 ) return false
+        for (const c of this.nodes) {
+            for (const d of this.nodes) {
+                if( c != d ){
+                    let dist =  distancee( c.circle.h, c.circle.k, d.circle.h, d.circle.k )
+                    if( dist < minDist ){
+                        ax = c.circle.h
+                        ay = c.circle.k
+                        bx = d.circle.h
+                        by = d.circle.k
+                        minDist = dist
+                    }
+                }
             }
         }
+        setColor( r, white )
+        circle( ax, ay, 10 )
+        circle( bx, by, 10 )
     }
     sortByRadius(){
         let nodes = this.nodes
         let temp
         for ( var some = 0; some < nodes.length; some++ ) {
             for ( var i = 0; i < nodes.length-1; i++ ) {
-                let j = i+1;
+                let j = i+1
                 let first = nodes[i].circle;
                 let second = nodes[j].circle;
                 if ( first.radius > second.radius ){
-                    temp = nodes[i];
-                    nodes[i] = nodes[j];
+                    temp = nodes[i]
+                    nodes[i] = nodes[j]
                     nodes[j] = temp;
                 }
             }
