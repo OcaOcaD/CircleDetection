@@ -73,16 +73,16 @@ closestPair = ( g ) => {
     return response;
 }
 //
-drawClosest = ( g, canvas ) => {
+drawClosest = ( g ) => {
     let pairs = closestPair( g );
-    canvas.stroke( 18, 245, 254 )
-    canvas.fill(  0, 79, 83 );
-    canvas.circle( pairs.f.x, pairs.f.y, 10 );
-    canvas.circle( pairs.t.x, pairs.t.y, 10 );
+    stroke( 18, 245, 254 )
+    fill(  0, 79, 83 );
+    circle( pairs.f.x, pairs.f.y, 10 );
+    circle( pairs.t.x, pairs.t.y, 10 );
     // gO.noLoop();
 }
 //
-showOptions = ( mx, my, g, can ) => {
+showOptions = ( mx, my, g ) => {
     // console.log(mx + "--" +my);
     let found = false
     for (let c of g.nodes) {
@@ -95,7 +95,6 @@ showOptions = ( mx, my, g, can ) => {
                 $('.vname').html(""+c.circle.h+", "+c.circle.k+"")
                 // console.log("shown")
                 gg = g;
-                kk = can;
                 oh = c.circle.h;
                 ok = c.circle.k;
             }
@@ -105,148 +104,163 @@ showOptions = ( mx, my, g, can ) => {
         $('#vertexOptions').hide()
 }
 //
-buildGraph = ( img ) => {
-    let paths = [];
-    //The good lines proobed that doesn't crash
-    let goodLines = []
-    let bg = new Graph()
-    //Now see if there are crashes
-    let obstacle = {
-        state:  false,
-        name: "TRUE OBSTACLE VARIABLE"
-    };
-    console.log("CRASHES")
-    for (const dot of img.circlesFound) {
-        //For each circle found there'll be a Node
-        
-        let oname = gn( dot.h, dot.k );
-        let nodeExists = bg.getNode( oname );
-        if( !nodeExists ){  
-            oname = bg.addNode( dot );
-            console.log( oname + "Node origin: ")
+buildGraph = ( img, ggg ) => {
+    return new Promise( async ( resolve, reject ) => {
+        let paths = []
+        //The good lines proobed that doesn't crash
+        console.log("Parameters graph", ggg)
+        let tng = new Graph()
+        console.log("TOTALLY NEW: ", tng)
+        for (const nn of img.circlesFound) {
+            tng.addNode( nn )
         }
-        let originNode = bg.getNode( oname );
-        // console.log( originNode );
-        let destinyNode
+        // console.log("Starting graph", bg)
+        //Now see if there are crashes
+        for (const dot of img.circlesFound) {
+            console.log("STARTING ONE")
+            //For each circle found there'll be a Node
+            let oname = gn( dot.h, dot.k )
+            let originNode = tng.getNode( oname );
+            // console.log( originNode );
 
-        for (const tod of img.circlesFound) {
-            //Check the destiny node
-            if( tod.h == dot.h && tod.k == dot.k ){
-                //Es el mismo jaja
-            }else{
-                let dname = gn( tod.h, tod.k );
-                obstacle.state = false
-                //Alredy checkeded?
-                if( !lineChecked( paths, oname, dname ) ){
-                    /***
-                     * 
-                     * 
-                     ***/
-                    //Create the destiny node if it doesn't exist
-                    let nodeExists = bg.getNode( dname )
-                    if( !nodeExists ){  
-                        //The destiny Node doesn't exist. Create it
-                        dname = bg.addNode( tod )
-                    }
-                    destinyNode = bg.getNode( dname )
-                    //C
-                    let path = {
-                        o: oname,
-                        d: dname
-                    }
-                    paths.push( path )
-                    //Get the coordin
-                    let details = getLineCoords( dot.h, dot.k, tod.h, tod.k );
-                    if( details.m != 0 && details.m != "Infinity" ){
-                        //The line is a diagonal
-                        for (const point of details.c) {
-                            //Look for the neighborhood
-                            let neigh = getNeighborhood( point.x, point.y )
-                            //If any of the neighborhood pixels aren't white. Then it is an obstacle
-                            for (const npixel of neigh) {
-                                //Check if the pixel isn't inside a the origin circle
-                                if( !insideCircles(dot, tod, npixel.x, npixel.y, 5) ){
-                                    // console.log("not part of the circle " + npixel.x +" , "+ npixel.y )
-                                    //Nos comparing a pixel aprt of any of both circles
-                                    obstacle.state = ( checkPixel( img, npixel.x, npixel.y ) ) ? false : true
-                                    if ( obstacle.state ) {break;}    //If it's an obstacle in any point. Stop chequing the line.
-                                }//else... is inside the a circle.. don't check if obstacle
-                            }//all Pixels in the neighborhood of this coordinate
-                            if( obstacle.state ) break;
-                        }//all coordinates in the line
-                    }else{
-                        //The slope is either 0 or Infinity. The line is straight
-                        for (const point of details.c) {
-                            if( !insideCircles(dot, tod, point.x, point.y, 5) ){
-                                // console.log("not part of the circle " + point.x +" , "+ point.y )
-                                //Nos comparing a pixel aprt of any of both circles
-                                obstacle.state = ( checkPixel( img, point.x, point.y ) ) ? false : true
-                                if ( obstacle.state ) { break;}    //If it's an obstacle in any point. Stop chequing the line.
-                            }//else... is inside the a circle.. don't check if obstacle
-                        }//all coordinates in the line
-                        if( obstacle.state ) break;
-                    }//Line checked m == 1 or Infinity or none  
-                    /**
-                     * 
-                     * 
-                     * 
-                     */
-                    if( !obstacle.state  ){
-                        goodLines.push( details )
-                        originNode.addEdge( destinyNode )
-                    }
-                }                 
-            }//else... is the same circle
-        }//Destiny circle
-    }//Origin circle
-    return bg;
+            for (const tod of img.circlesFound) {
+                //Check the destiny node
+                let valid = await validLine( img, dot, tod, paths )
+                    .then( async ( res )=> {
+                        let img = res.img
+                        let dot = res.origin
+                        let tod = res.dest
+                        let dname = gn( tod.h, tod.k )
+                        console.log("Valid line: ", oname, dname)
+                        /** */
+                        
+                        //C
+                        let path = {
+                            o: oname,
+                            d: dname
+                        }
+                        paths.push( path )
+                        //Get the coordin.
+                        // Promise finding Line coordinates
+                        let middlecoords = await getLineCoords( dot.h, dot.k, tod.h, tod.k )
+                        return middlecoords
+                        /** */
+                    } )
+                    .catch( err=> console.log("Not valid: ",err) )
+                    .then( async ( details ) => {
+                        if( details ){
+                            let slope = details.m
+                            let coords = details.c
+                            if( slope != 0 && slope != "Infinity" ){
+                                //The line is a diagonal
+                                //Promise finding line
+                                return await checkCoordsWithSlope( img, coords, dot, tod )  
+                                    
+                            }else{
+                                //Promise finding line
+                                return await checkCoords( img, coords, dot, tod )   
+                            }//Line checked m == 1 or Infinity or none  
+                        }else{
+                            return null
+                        }
+                    } )
+                    .then( ( adjacency ) => {
+                        console.log("Edge found: ", adjacency)
+                        if( adjacency ){
+                            let dname = gn(adjacency.h, adjacency.k)
+                            let destinyNode = tng.getNode( dname )
+                            //
+                            originNode.addEdge( destinyNode )
+                        }
+                    } )
+                    .catch( err => {
+                        console.log("Obstacle found:", err, details.m)
+                    } )
+                    .catch( (message) => {
+                        console.log(message)
+                    })
+                    console.log("JUST ENDED ONE")
+            }//Destiny circle
+        }//Origin circle
+        console.log("ENDED ALL")
+        resolve ( tng );
+    } )
+    
 }
 //
-drawEdges = ( g, i, canvas ) => {
+drawEdges = ( g, i ) => {
+    let drawn = []
     for (const n of g.nodes) {
         if( n!= null ){
             for (const e of n.edge) {
-                if( g.getNode( e.name ) != null ){
-                    let coords = getLineCoords( n.circle.h, n.circle.k, e.circle.h, e.circle.k )
-                    let c = coords.c
-                    for (const dot of c) {
-                        let index = getIndex( dot.x, dot.y, i.width )
-                        setP( i, index, 0, 79, 83 );
-                    }
-                }
+                let valid = notChecked( n.name, e.name, drawn )
+                    .then( async ( res ) => {
+                        drawn.push(res)
+                        let middlecoords = await getLineCoords( n.circle.h, n.circle.k, e.circle.h, e.circle.k )
+                        return middlecoords
+                    } )
+                    .catch( (err) => console.log("Err: ", err) )
+               
+                    .then( (coords) => {
+                        let c = coords.c
+                        for ( const dot of c ) {
+                            let index = getIndex( dot.x, dot.y, i.width )
+                            // console.log( 
+                            //     img.pixels[index], 
+                            //     img.pixels[index+1],
+                            //     img.pixels[index+2]
+                            // )
+                            setP( i, index, 0, 79, 83 )
+                            i.updatePixels();
+                            background(i);
+                            for (const ob of i.someFigure) {
+                                fill( 255, 255, 255, 150 )
+                                stroke( 0, 255, 255, 150 )
+                                let tol = 5
+                                ob.ropeA.x1 -= tol
+                                ob.ropeA.x2 += tol
+                                ob.ropeA.y1 -= tol
+                                ob.ropeA.y2 += tol
+
+                                ob.ropeB.x1 -= tol
+                                ob.ropeB.x2 += tol
+                                ob.ropeB.y1 -= tol
+                                ob.ropeB.y2 += tol
+                                // ob.circle( ob.h, ob.k, ob.radius*2 );
+                                rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2-ob.ropeA.x1, ob.ropeB.y2-ob.ropeA.y1 )
+                            }
+                        }
+                    } )
+                    .catch( mssg => console.log(mssg) )
             }
         }
-    }
-    
-    i.updatePixels();
-    canvas.background(i);
-    for (const ob of i.someFigure) {
-        canvas.fill( 255, 255, 255, 150 )
-        canvas.stroke( 0, 255, 255, 150 )
-        let tol = 5
-        ob.ropeA.x1 -= tol
-        ob.ropeA.x2 += tol
-        ob.ropeA.y1 -= tol
-        ob.ropeA.y2 += tol
-
-        ob.ropeB.x1 -= tol
-        ob.ropeB.x2 += tol
-        ob.ropeB.y1 -= tol
-        ob.ropeB.y2 += tol
-        // ob.circle( ob.h, ob.k, ob.radius*2 );
-        canvas.rect( ob.ropeA.x1, ob.ropeA.y1, ob.ropeB.x2-ob.ropeA.x1, ob.ropeB.y2-ob.ropeA.y1 )
-    }
+    }   
+}
+//
+notChecked = ( oname, dname, drawn ) => {
+    console.log("checking names", oname, dname )
+    return new Promise( (resolve, reject) => {
+        if( lineChecked( drawn, oname, dname ) ){
+            reject( "Alredy drawn" )
+        }else{
+            let path = {
+                o: oname,
+                d: dname
+            }
+            resolve( path )
+        }
+    } )
 }
 //PLACE NAMES OF CIRCLES
-drawText = ( g, canvas ) => {
+drawText = ( g ) => {
     for (const c of g.nodes) {
         if( c != null ){
-            canvas.textSize( 18 );
-            // canvas.fill( 29, 29, 27 );
-            // canvas.stroke( 0, 79, 83 );
-            canvas.stroke( 18, 245, 254 );
-            canvas.fill( 0, 79, 83 );
-            canvas.text( c.name, c.circle.h, c.circle.k + c.circle.radius);
+            textSize( 18 );
+            // fill( 29, 29, 27 );
+            // stroke( 0, 79, 83 );
+            stroke( 18, 245, 254 );
+            fill( 0, 79, 83 );
+            text( c.name, c.circle.h, c.circle.k + c.circle.radius);
         }
     }
 }
@@ -259,11 +273,10 @@ addPredator = () => {
 }
 
 //
-drawGraph = ( g, i, canvas ) => {
-    g.buildEdgesCoordinates()
-    drawEdges( g, i, canvas )
-    drawClosest( g, canvas )
-    drawText( g, canvas )
+drawGraph = ( g, i ) => {
+    // drawEdges( g, i )
+    drawClosest( g )
+    drawText( g )
     console.log("New graph drawn")
     console.log(g)
 }
@@ -279,7 +292,7 @@ deleteVertex = (  ) => {
     graph = gg;
     kk.loadImage("src/img/"+ imageName +".png", ( i ) => {
         i.loadPixels()
-        drawGraph( graph, i, kk )
+        drawGraph( graph, i )
         sortAndShow( graph )
     });
     // } else {

@@ -1,8 +1,10 @@
 class Graph{
     constructor(){
-        this.nodes = []
+        // this.nodes = []
         this.graph = {}
         this.name = ""
+        this.nodes = []
+        console.log("New nodes", this.nodes)
     }
     addNode = ( node ) => { 
         //Adding the node to the graph   
@@ -12,6 +14,13 @@ class Graph{
         //Making the new node name a reference to the Node itself
         this.graph[name] = n;
         return name
+    }
+    exists = ( name ) => {
+        for (const n of this.nodes) {
+            if( n.name == name )
+                return name
+        }
+        return false
     }
     getNode( name ){
         return this.graph[name];
@@ -53,5 +62,31 @@ class Graph{
             }
         }
         return min
+    }
+    //Draw Circles and lines  of the graph
+    draw(){
+        for (const n of this.nodes) {
+            circle( n.circle.h, n.circle.k, (n.circle.radius-1)*2 )
+            for (const e of n.edge) {
+                line( n.circle.h, n.circle.k, e.circle.h, e.circle.k )
+            }
+        }
+    }
+    sortByRadius(){
+        let nodes = this.nodes
+        let temp
+        for ( var some = 0; some < nodes.length; some++ ) {
+            for (var i = 0; i < nodes.length-1; i++) {
+                let j = i+1;
+                let first = nodes[i].circle;
+                let second = nodes[j].circle;
+                if ( first.radius > second.radius ){
+                    temp = nodes[i];
+                    nodes[i] = nodes[j];
+                    nodes[j] = temp;
+                }
+            }
+        }
+        return nodes
     }
 }

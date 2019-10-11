@@ -13,7 +13,7 @@ var lr = [ 234, 255, 184 ]
 var r  = [ 255,  14,  63 ]
 var dr = [  67,   0,  13 ]
 
-var setColor = ( canvas, base, dark ) => {
-    canvas.fill( dark );
-    canvas.stroke( base );
+var setColor = ( base, dark ) => {
+    fill( dark );
+    stroke( base );
 }

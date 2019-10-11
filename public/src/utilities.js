@@ -203,102 +203,73 @@ blackAround = ( crossEdges, img, radius ) => {
 
 //This functions gets the coordinates where a line cross from point A to point B
 getLineCoords = ( x1, y1, x2, y2 ) => {
-    let m;
-    let ymax;
-    let ymin;
-    let xmax;
-    let xmin;
-    let coords = [];
-    // line( x1, y1, x2, y2 );
-    //Calculamos las coordenadas 
-    if( Math.abs(y2 - y1) < Math.abs(x2 - x1) ){
-        let x_c;
-        // console.log("Calculando las y");
-        //La diferencia de X es mayor calculamos las y
-        if( y2 >= y1 ){
-            ymax = y2;
-            ymin = y1;
-            xmax = x2;
-            xmin = x1;
-            if( xmax < xmin ){
-                ymax = y1;
-                ymin = y2;
-                xmax = x1;
-                xmin = x2;
+    return new Promise( ( resolve, reject ) => {
+        //y = mx+B;
+        let m;
+        let ymax;
+        let ymin;
+        let xmax;
+        let xmin;
+        let coords = [];
+        //Calculamos las coordenadas 
+        if( Math.abs(y2 - y1) < Math.abs(x2 - x1) ){
+            let y_c;
+            //La diferencia de X es mayor calculamos las y
+            if( y2 >= y1 ){
+                ymax = y2; ymin = y1; xmax = x2; xmin = x1;
+                if( xmax < xmin ){
+                    ymax = y1; ymin = y2; xmax = x1; xmin = x2;
+                }
+            }else{
+                ymax = y1;  ymin = y2;  xmax = x1;  xmin = x2;
+                if( xmax < xmin ){
+                    ymax = y2;  ymin = y1;  xmax = x2;  xmin = x1;
+                }
+            }
+            //Calculamos la pendiente
+            m = (ymax - ymin) / ( xmax - xmin );
+            // y-y1 = m( x - x1 )
+            // y = m( x - xmax ) + ymax
+            for (let x_c = xmin; x_c < xmax; x_c++) {
+                y_c = m*( x_c - xmax ) + ymax;
+                y_c = Math.floor( y_c );
+                let coord = {
+                    x: x_c, y: y_c
+                }
+                coords.push( coord );
             }
         }else{
-            ymax = y1;
-            ymin = y2;
-            xmax = x1;
-            xmin = x2;
-            if( xmax < xmin ){
-                ymax = y2;
-                ymin = y1;
-                xmax = x2;
-                xmin = x1;
+            let x_c;
+            //La diferencia de Y es mayor. Calculamos las x
+            if( x2 >= x1 ){
+                ymax = y2;  ymin = y1;  xmax = x2;  xmin = x1;
+                if( ymin > ymax ){
+                    ymax = y1;  ymin = y2;  xmax = x1;  xmin = x2;
+                }
+            }else{
+                ymax = y1;  ymin = y2;  xmax = x1;  xmin = x2;
+                if( ymin > ymax ){
+                    ymax = y2;  ymin = y1;  xmax = x2;  xmin = x1;
+                }
             }
+            //Calculamos la pendiente
+            m = (ymax - ymin) / ( xmax - xmin );
+            for( let y_c = ymin; y_c < ymax; y_c++ ){
+                x_c = ( ( y_c - y1 ) / m  ) + x1;
+                x_c = Math.floor( x_c );
+                let coord = {
+                    x: x_c,  y: y_c
+                }
+                coords.push( coord );
+            }      
         }
-        //Calculamos la pendiente
-        m = (ymax - ymin) / ( xmax - xmin );
-        //y-y1 = m( x - x1 )
-        //y = m( x - xmax ) + ymax
-        for (let x_c = xmin; x_c <= xmax; x_c++) {
-            y_c = m*( x_c - xmax ) + ymax;
-            y_c = Math.floor( y_c );
-            let coord = {
-                x: x_c,
-                y: y_c
-            }
-            coords.push( coord );
+        // console.log("Pendiente: " + m);
+        details = {
+            m : Math.abs(m), 
+            c : coords
         }
-        
-    }else{
-        //La diferencia de Y es mayor. Calculamos las x
-        let x_c;
-        // console.log("Calculando las x");
-        if( x2 >= x1 ){
-            ymax = y2;
-            ymin = y1;
-            xmax = x2;
-            xmin = x1;
-            if( ymin > ymax ){
-                ymax = y1;
-                ymin = y2;
-                xmax = x1;
-                xmin = x2;
-            }
-        }else{
-            ymax = y1
-            ymin = y2
-            xmax = x1
-            xmin = x2
-            if( ymin > ymax ){
-                ymax = y2
-                ymin = y1
-                xmax = x2
-                xmin = x1
-            }
-        }
-        // console.log("ymax : " + ymax)
-        // console.log( "ymin : " +  ymin)
-        //Calculamos la pendiente
-        m = (ymax - ymin) / ( xmax - xmin );
-        for( let y_c = ymin; y_c <= ymax; y_c++ ){
-            x_c = ( ( y_c - y1 ) / m  ) + x1
-            x_c = Math.floor( x_c )
-            let coord = {
-                x: x_c,
-                y: y_c
-            }
-            coords.push( coord );
-        }      
-    }
-    // console.log("Pendiente: " + m);
-    let details = {
-        m : Math.abs(m), 
-        c : coords
-    }
-    return details;
+        resolve( details )
+    } )
 }
 
 //
@@ -360,15 +331,22 @@ insideObstacle = ( obstacles, px, py ) => {
 }
 
 //Check pixel
-checkPixel = ( img, x, y ) => {
+isPixelWhite = ( img, x, y ) => {
     //True if not an obnstacle
     //False if obstacle 
     let index = getIndex( x, y, img.width );
     if( isWhite( img, index ) || insideObstacle( img.someFigure, x, y ) ){    //if not white return true
         // setP( img, index, 0, 255, 1 );
+        // console.log("white")
+        // console.log("white", x, y)
         return true;
     }else{
         setP( img, index, 255, 0, 0 );
+        // console.log("OBSTACLEEEEE",x,y)
+        // console.log( img.pixels[index], 
+        //     img.pixels[index+1],
+        //      img.pixels[index+2] )
+        // console.log("OBSTACLEEEEE")
         return false;
     }
 }
@@ -395,5 +373,64 @@ lineChecked = ( paths, oname, dname ) => {
     return false;
 }
 
-
-
+checkCoordsWithSlope = ( image, coords, dot, tod ) => {
+    return new Promise( ( resolve, reject ) => {
+        let obstacle = false
+        for (const point of coords) {
+            //Look for the neighborhood
+            let neigh = getNeighborhood( point.x, point.y )
+            //If any of the neighborhood pixels aren't white. Then it is an obstacle
+            for (const npixel of neigh) {
+                //Check if the pixel isn't inside a the origin circle
+                if( !insideCircles(dot, tod, npixel.x, npixel.y, 5) ){
+                    // console.log("not part of the circle " + npixel.x +" , "+ npixel.y )
+                    //Nos comparing a pixel aprt of any of both circles
+                    obstacle = ( isPixelWhite( image, npixel.x, npixel.y ) ) ? false : true
+                    if ( obstacle == true ) { reject ( "Obstacle was found: "+  npixel.x + ", "+ npixel.y ) }    //If it's an obstacle in any point. Stop chequing the line.
+                }//else... is inside the a circle.. don't check if obstacle
+            }//all Pixels in the neighborhood of this coordinate
+            // if( obstacle ) break;
+        }//all coordinates in the line
+        resolve( tod )
+    } )
+}
+//
+//
+checkCoords = ( image, coords, dot, tod ) => {
+    
+    return new Promise( ( resolve, reject ) => {
+        let obstacle = false
+        //The slope is either 0 or Infinity. The line is straight
+        for (const point of coords) {
+            if( !insideCircles(dot, tod, point.x, point.y, 5) ){
+                // console.log("not part of the circle " + point.x +" , "+ point.y )
+                //Nos comparing a pixel aprt of any of both circles
+                obstacle = ( isPixelWhite( image, point.x, point.y ) ) ? false : true
+                if ( obstacle == true ) { reject ( "Obstacle was found: "+  point.x + ", "+ point.y ) }    //If it's an obstacle in any point. Stop chequing the line.
+            }//else... is inside the a circle.. don't check if obstacle
+        }//all coordinates in the line
+        resolve( tod )
+    } )
+}
+//
+//
+validLine = ( img, dot, tod, p ) => {
+    return new Promise( (resolve, reject) => {
+        if ( tod.h == dot.h && tod.k == dot.k ){
+            reject( "Same circle, don't do shit" )
+        }else{
+            let oname = gn( dot.h, dot.k )
+            let dname = gn( tod.h, tod.k )
+            if( lineChecked( p, oname, dname ) ){
+                reject( "Alredy checked" )
+            }else{
+                let res = {
+                    img: img,
+                    origin: dot,
+                    dest: tod
+                }
+                resolve( res )
+            }
+        }
+    } )
+}

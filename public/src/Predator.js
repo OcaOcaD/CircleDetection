@@ -16,22 +16,19 @@ class Predator{
         this.desty = null
         this.stage = 0
     }
-    arrived = () => {
-        return ( this.x == this.destx && this.y == this.desty ) ? true : false
+    arrived = ( pathSize, step ) => {
+        // return ( this.x == this.destx && this.y == this.desty ) ? true : false
+        return ( step == pathSize ) ? true : false;
     }
     setDestination = ( graph ) => {
         if( this.destx == this.desty && this.destx == null ) {
-             this.pickPath( graph ) 
-             this.stage = 0
+            this.destx = this.x
+            this.desty = this.y
+            this.stage = 0
+            this.pickPath( graph ) 
         }
     }
     move = ( graph ) => {
-        if( this.arrived() ) {
-            console.log( "DEST CHANGED: " )
-            this.pickPath( graph ) 
-        }else{
-            console.log(this.x+","+this.y+" obviuously is not "+this.destx+","+this.desty)
-        }
         let ox = this.originx
         let oy = this.originy
         let dx = this.destx
@@ -41,27 +38,54 @@ class Predator{
         let step = this.stage
         console.log("________________________________________")
         let newSet = {}
-        let coords = getLineCoords( ox, oy, dx, dy ).c
-        if( ox == coords[ coords.length-1 ].x && oy == coords[ coords.length-1 ].y ){
-            newSet = handleBackMove( coords, step, actualx, actualy )
-        }else{
-            newSet = handleMovement( coords, step, actualx, actualy )
-        }
-        this.x = newSet.x
-        this.y = newSet.y
-        this.stage += 1
+        let pCoords = getLineCoords( ox, oy, dx, dy )
+            .then( (coordsResolved) => {
+                let coords = coordsResolved.c
+                if( ox == coords[ 0 ].x && oy == coords[ 0 ].y ){
+                    console.log("start normal....")
+                    newSet = handleMovement( coords, step )
+                }else{
+                    console.log("start backwards....")
+                    newSet = handleBackMove( coords, step )
+                }
+                this.x = newSet.x
+                this.y = newSet.y
+                this.stage += 1
+                if( this.arrived( coords.length, this.stage ) ) {
+                    console.log( "DESTINATION CHANGED: ", this.destx, this.desty )
+                    this.pickPath( graph ) 
+                }else{
+                    console.log(this.x+","+this.y+" obviuously is not "+this.destx+","+this.desty)
+                }
+            } )
     }
     pickPath = ( graph ) => {
-        let name           = gn( this.x, this.y )
-        let nuOrigin       = graph.getNode( name )
-        this.originx = this.x
-        this.originy = this.y
+        console.log("NEW ORIGIN (old dest): ", this.destx, this.desty)
+        let name     = gn( this.destx, this.desty )
+        let nuOrigin = graph.getNode( name )
+        this.originx = this.destx
+        this.originy = this.desty
         let edgesAvailable = nuOrigin.edge.length - 1
         let random         = Math.round( Math.random() * (+edgesAvailable - +0) + 0 )
         let edge           = nuOrigin.edge[random]
         this.destx = edge.circle.h
         this.desty = edge.circle.k
         this.stage = 0
+    }
+    //Drawing a "Star" in the position of the node
+    draw = () => {
+        let angle = TWO_PI / this.peaks;
+        let halfAngle = angle / 2.0;
+        beginShape();
+        for ( let a = 0; a < TWO_PI; a += angle ) {
+            let sx = this.x + cos(a) * this.radius2;
+            let sy = this.y + sin(a) * this.radius2;
+            vertex(sx, sy);
+            sx = this.x + cos( a + halfAngle ) * this.radius1;
+            sy = this.y + sin( a + halfAngle ) * this.radius1;
+            vertex(sx, sy);
+        }
+        endShape(CLOSE);
     }
 }
 

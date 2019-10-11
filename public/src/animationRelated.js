@@ -1,5 +1,5 @@
-handleBackMove = ( coords, step, actualx, actualy ) => {
-    console.log( step )
+handleBackMove = ( coords, step ) => {
+    console.log( "Back move:", step, coords )
     coords.reverse()
     let newSet = {
         x : coords[step].x,
@@ -7,8 +7,8 @@ handleBackMove = ( coords, step, actualx, actualy ) => {
     }
     return newSet
 }
-handleMovement = ( coords, step, actualx, actualy ) => {
-    console.log( step )
+handleMovement = ( coords, step ) => {
+    console.log( "Normal move:", step, coords )
     let newSet = {
         x : coords[step].x,
         y : coords[step].y

@@ -29,8 +29,11 @@ class Node{
     }
     buildEdgesCoordinates = () => {
         for (const e of this.edge) {
-            let ec = getLineCoords( this.circle.h, this.circle.k, e.circle.h, e.circle.k )
-            this.edgeCoords.push( ec.c )
+            getLineCoords( this.circle.h, this.circle.k, e.circle.h, e.circle.k )
+                .then( ( edgeCoords ) => {
+                    this.edgeCoords.push( ec.c )
+                } )
+            
         }
     }
     getEdgeCost = ( desntinyNodeName ) => {
