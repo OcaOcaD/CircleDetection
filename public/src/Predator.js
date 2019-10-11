@@ -68,7 +68,7 @@ class Predator{
         this.originx = this.destx
         this.originy = this.desty
         let edgesAvailable = nuOrigin.edge.length - 1
-        if( edgesAvailable > 0 ){
+        if( edgesAvailable+1 > 0 ){
             let random         = Math.round( Math.random() * (+edgesAvailable - +0) + 0 )
             let edge           = nuOrigin.edge[random]
             this.destx = edge.circle.h
@@ -83,6 +83,7 @@ class Predator{
     }
     //Drawing a "Star" in the position of the node
     draw = () => {
+        setColor( white, db )
         let angle = TWO_PI / this.peaks;
         let halfAngle = angle / 2.0;
         beginShape();

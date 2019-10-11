@@ -75,6 +75,7 @@ class Graph{
     }
     //Draw Circles and lines  of the graph
     draw(){
+        setColor( r, dr )
         for (const n of this.nodes) {
             circle( n.circle.h, n.circle.k, (n.circle.radius-1)*2 )
             for (const e of n.edge) {

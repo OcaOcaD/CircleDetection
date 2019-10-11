@@ -2,19 +2,17 @@ let canvasX = 100
 let canvasY = 100
 var socket = io.connect('http://localhost:3000')
 let graph = new Graph()
+let obstacles = []
 let predators = []
 let img
 setEventListeners = () => {
-    mouseClicked = ( event ) => {
-        showOptions( event.layerX, event.layerY, graph )
-    }
+    mouseClicked = ( event ) => { showOptions( event.layerX, event.layerY, graph ) }
 }
 //
 sortAndShow = ( g ) => {
     let nodes = g.sortByRadius()
     viewAsTree( nodes )
 }
-
 /****SET UP THE SKETCH */
 setup = () => { socket.on('imageChange', newDrawing) }
 newDrawing = ( data ) => {
@@ -37,28 +35,32 @@ drawImage = async ( img ) => {
     //Update the pixels and see the magic
     sortAndShow( graph )
     //Event lister to download modified
-    createDownloadButtons()
-    
+    createDownloadButtons() 
 }
 draw = () => {
-    background( grey )
+    background( 27, 27, 29, 10 )
+    // drawObstacles( obstacles )
     graph.draw()
     graph.text()
     drawPredators( graph )
     movePredators( graph )
-
 }
 //BUTTONS
 saveButton = (orImg) =>{
     //Event lister
     let b_o = createButton("Download original")
-    b_o.mousePressed( function(){
-        save(orImg, "Original_"+imageName+".png")
-    } )
+    b_o.mousePressed( () => { save(orImg, "Original_"+imageName+".png") } )
 }
 createDownloadButtons = () => {
     let b_o = createButton("Download modified")
-    b_o.mousePressed( function(){
-        save(img, "Modified_"+imageName+".png")
-    } )
+    b_o.mousePressed( () => { save(img, "Modified_"+imageName+".png") } )
+}
+//
+drawObstacles = ( obst ) => {
+    console.log("Drawing obst: ", obst)
+    for (const o of obst) {
+        console.log("something?")
+        setColor( grey, white )
+        point( o.x, o.y )
+    }
 }

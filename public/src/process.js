@@ -86,11 +86,12 @@ checkArea = ( x, y, img ) => {
                 if ( isBlack( img, index ) ){
                     if ( notRepeated( point.spot_x, point.spot_y, img.circlesFound, img.someFigure ) ){
                         //Circle found
-                        // setP( img, index, 255, 00, 0 );
                         findExactSpot( point.spot_x, point.spot_y, img );
-                    }else{
-                        // setP( img, index, 100, 200, 255 );
                     }
+                }else if ( !isWhite( img, index ) && !isBlack( img, index ) ) {
+                    //Then its an obstacle of some color
+                    // obstacles.push( { x: point.spot_x, y: point.spot_y } )
+                    // console.log("Obstacles: ", obstacles)
                 }
             }else{
                 //outside the y axis

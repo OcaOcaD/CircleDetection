@@ -16,8 +16,7 @@ io.sockets.on('connection', (socket) => {
     console.log("New connection: "+ socket.id) //Print the id of the connection
     socket.on('changeImage', (name) => {
         //If the image has been changed. Look for the file and return.........
-        console.log("Image to analize: " + name)
-        
+        console.log("Image to analize: " + name)  
         sizeOf('public/src/img/'+name+'.png', function (err, dimensions) {
             console.log(dimensions);
             let data = {
