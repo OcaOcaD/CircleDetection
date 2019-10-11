@@ -15,6 +15,7 @@ class Predator{
         this.destx = null
         this.desty = null
         this.stage = 0
+        this.parked = false  //Can't move
     }
     arrived = ( pathSize, step ) => {
         // return ( this.x == this.destx && this.y == this.desty ) ? true : false
@@ -29,6 +30,7 @@ class Predator{
         }
     }
     move = ( graph ) => {
+        if( this.parked ) return false  //If parked. Don't move
         let ox = this.originx
         let oy = this.originy
         let dx = this.destx
@@ -66,11 +68,18 @@ class Predator{
         this.originx = this.destx
         this.originy = this.desty
         let edgesAvailable = nuOrigin.edge.length - 1
-        let random         = Math.round( Math.random() * (+edgesAvailable - +0) + 0 )
-        let edge           = nuOrigin.edge[random]
-        this.destx = edge.circle.h
-        this.desty = edge.circle.k
-        this.stage = 0
+        if( edgesAvailable > 0 ){
+            let random         = Math.round( Math.random() * (+edgesAvailable - +0) + 0 )
+            let edge           = nuOrigin.edge[random]
+            this.destx = edge.circle.h
+            this.desty = edge.circle.k
+            this.stage = 0
+        }else{
+            this.park()
+        }
+    }
+    park(){
+        this.parked = true
     }
     //Drawing a "Star" in the position of the node
     draw = () => {

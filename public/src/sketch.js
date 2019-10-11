@@ -17,10 +17,7 @@ sortAndShow = ( g ) => {
 }
 
 /****SET UP THE SKETCH */
-setup = () => {
-    socket.on('imageChange', newDrawing)
-    // noLoop()
-}
+setup = () => { socket.on('imageChange', newDrawing) }
 newDrawing = ( data ) => {
     //Recieve data and create a original canvas load the image and a ;
     canvasX = data.x; canvasY = data.y;    imageName = data.n        //Receiving info
@@ -30,7 +27,6 @@ newDrawing = ( data ) => {
     setEventListeners()
     orImg = loadImage("src/img/"+ imageName +".png", saveButton)   //Original image
     img   = loadImage("src/img/"+ imageName +".png", drawImage )   //to Modify
-    // noLoop();
 }
 drawImage = async ( img ) => {
     image( img, 0, 0 )
@@ -46,24 +42,19 @@ drawImage = async ( img ) => {
         } )
     console.log("SO NOW IMMA DRAWIT")
     //Update the pixels and see the magic
-    drawGraph( graph, img )
+    // drawGraph( graph, img )
     sortAndShow( graph )
     //Event lister to download modified
     let b_o = createButton("Get modified")
     b_o.mousePressed( function(){
         save(img, "Modified_"+imageName+".png")
     } )
-    /**START SETING UP THE PREDATORS AND PREYS */
-    let cost = graph.getMinimumCost()
-    console.log("THE MINIMUM COST IS: " + cost)
-    
 
-    
 }
 draw = () => {
-    // background( grey )
+    background( grey )
     graph.draw()
-    // drawLines( img, graph )
+    graph.text()
     drawPredators( graph )
     movePredators( graph )
 

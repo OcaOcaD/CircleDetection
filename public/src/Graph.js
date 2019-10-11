@@ -29,6 +29,11 @@ class Graph{
         // console.log(name)
         for (let i in this.nodes) {
             if( this.nodes[i] != null ){
+                for( let j in this.nodes[i].edge ){
+                    if( this.nodes[i].edge[j].name == name ){
+                        this.nodes[i].edge[j] = null
+                    }
+                }
                 // console.log(this.nodes[i].name + " == " + name)
                 if( this.nodes[i].name == name ){
                     // console.log("should delete the node: " + i)
@@ -39,6 +44,11 @@ class Graph{
         this.graph[name] = null
         let aux = this.nodes.filter( (pInCheck) => pInCheck != null )
         this.nodes = aux
+        for (let i in this.nodes) {
+            let edgeaux = this.nodes[i].edge.filter( eInCheck => eInCheck != null )
+            this.nodes[i].edge = edgeaux
+        }
+        
     }
     buildEdgesCoordinates = () => {
         for (let i in this.nodes) {
@@ -72,11 +82,20 @@ class Graph{
             }
         }
     }
+    text(){
+        for (const c of this.nodes) {
+            if( c != null ){
+                textSize( 18 );
+                setColor( grey, white )
+                text( c.name, c.circle.h, c.circle.k + c.circle.radius);
+            }
+        }
+    }
     sortByRadius(){
         let nodes = this.nodes
         let temp
         for ( var some = 0; some < nodes.length; some++ ) {
-            for (var i = 0; i < nodes.length-1; i++) {
+            for ( var i = 0; i < nodes.length-1; i++ ) {
                 let j = i+1;
                 let first = nodes[i].circle;
                 let second = nodes[j].circle;

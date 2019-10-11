@@ -1,5 +1,6 @@
 /*COLORS*/
-var grey=[  29,  29,  27 ]
+var grey  = [  29,  29,  27 ]
+var white = [ 255, 255, 255 ]
 
 var lb = [ 180, 252, 255 ]
 var b  = [ 18 , 245, 254 ]

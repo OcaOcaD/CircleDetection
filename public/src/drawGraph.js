@@ -1,5 +1,3 @@
-var gg;
-var kk;
 var oh;
 var ok;
 //
@@ -271,7 +269,6 @@ addPredator = () => {
     let p = new Predator( oh, ok )
     predators.push( p )
 }
-
 //
 drawGraph = ( g, i ) => {
     // drawEdges( g, i )
@@ -280,27 +277,16 @@ drawGraph = ( g, i ) => {
     console.log("New graph drawn")
     console.log(g)
 }
-
 //
-deleteVertex = (  ) => {
+deleteVertex = () => {
     $('#vertexOptions').hide()
-    // var r = confirm("Quieres borrar el vertice: " + oh + ", "+ ok);
-    // if (r == true) {
-    let name = gn( oh, ok );
-    gg.deleteNode( name );
-    console.log(gg)
-    graph = gg;
-    kk.loadImage("src/img/"+ imageName +".png", ( i ) => {
+    let name = gn( oh, ok )
+    graph.deleteNode( name )
+    loadImage("src/img/"+ imageName +".png", ( i ) => {
         i.loadPixels()
-        drawGraph( graph, i )
         sortAndShow( graph )
     });
-    // } else {
-        // window.alert("NOTHING DONE");
-    // }
-    // $('#vertexOptions').load('./src/components/vertexOptions/vertexOptions.html')
 }
-
 //
 cancelOption = () => {
     $('#vertexOptions').hide()
