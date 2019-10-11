@@ -28,7 +28,7 @@ class Graph{
     deleteNode = ( name ) => {
         // console.log(name)
         for (let i in this.nodes) {
-            if( this.nodes[i] != null ){
+            // if( this.nodes[i] != null ){
                 for( let j in this.nodes[i].edge ){
                     if( this.nodes[i].edge[j].name == name ){
                         this.nodes[i].edge[j] = null
@@ -39,7 +39,7 @@ class Graph{
                     // console.log("should delete the node: " + i)
                     this.nodes[i] = null
                 }
-            }
+            // }
         }
         this.graph[name] = null
         let aux = this.nodes.filter( (pInCheck) => pInCheck != null )

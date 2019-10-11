@@ -1,7 +1,7 @@
-let canvasX = 100;
-let canvasY = 100;
-var socket = io.connect('http://localhost:3000');
-let graph = new Graph();
+let canvasX = 100
+let canvasY = 100
+var socket = io.connect('http://localhost:3000')
+let graph = new Graph()
 let predators = []
 let img
 setEventListeners = () => {
@@ -9,7 +9,6 @@ setEventListeners = () => {
         showOptions( event.layerX, event.layerY, graph )
     }
 }
-
 //
 sortAndShow = ( g ) => {
     let nodes = g.sortByRadius()
@@ -34,22 +33,12 @@ drawImage = async ( img ) => {
     analize( img )
     outputData( img )
     await buildGraph( img, graph )
-        .then( ( g ) => {
-            graph = g
-            console.log(graph)
-            console.log("JUST BUILDED THE GRAPHHHH")
-            
-        } )
-    console.log("SO NOW IMMA DRAWIT")
+        .then( ( g ) => { graph = g } )
     //Update the pixels and see the magic
-    // drawGraph( graph, img )
     sortAndShow( graph )
     //Event lister to download modified
-    let b_o = createButton("Get modified")
-    b_o.mousePressed( function(){
-        save(img, "Modified_"+imageName+".png")
-    } )
-
+    createDownloadButtons()
+    
 }
 draw = () => {
     background( grey )
@@ -59,28 +48,17 @@ draw = () => {
     movePredators( graph )
 
 }
-    //BUTTONS
-    saveButton = (orImg) =>{
-        //Event lister
-        let b_o = createButton("Get original")
-        b_o.mousePressed( function(){
-            save(orImg, "Original_"+imageName+".png")
-        } )
-    }
-/***SOME PREDATOR FUCNTIONS */
-drawPredators = ( g ) => {
-    rectMode(CENTER)
-    setColor( r, dr )
-    for (let i in predators) {
-        predators[i].setDestination( g )
-        predators[i].draw()
-    }
-    rectMode(CORNER)
+//BUTTONS
+saveButton = (orImg) =>{
+    //Event lister
+    let b_o = createButton("Download original")
+    b_o.mousePressed( function(){
+        save(orImg, "Original_"+imageName+".png")
+    } )
 }
-movePredators = ( g ) => {
-    for (let i in predators) {
-        predators[i].move( g )
-    }
+createDownloadButtons = () => {
+    let b_o = createButton("Download modified")
+    b_o.mousePressed( function(){
+        save(img, "Modified_"+imageName+".png")
+    } )
 }
-
-

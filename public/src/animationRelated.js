@@ -1,17 +1,28 @@
+/***SOME PREDATOR FUCNTIONS */
+drawPredators = ( g ) => {
+    rectMode(CENTER)
+    setColor( r, dr )
+    for (let i in predators) {
+        predators[i].setDestination( g )
+        predators[i].draw()
+    }
+    rectMode(CORNER)
+}
+movePredators = ( g ) => {
+    for (let i in predators) {
+        predators[i].move( g )
+    }
+}
 handleBackMove = ( coords, step ) => {
-    console.log( "Back move:", step, coords )
     coords.reverse()
-    let newSet = {
+    return {
         x : coords[step].x,
         y : coords[step].y
     }
-    return newSet
 }
 handleMovement = ( coords, step ) => {
-    console.log( "Normal move:", step, coords )
-    let newSet = {
+    return {
         x : coords[step].x,
         y : coords[step].y
     }
-    return newSet
 }
