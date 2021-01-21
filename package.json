@@ -12,6 +12,6 @@
     "express": "^4.17.1",
     "graceful-fs": "^4.2.2",
     "image-size": "^0.7.4",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   }
 }
