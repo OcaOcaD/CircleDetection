@@ -9,7 +9,7 @@
   "author": "Luis Donaldo Garcia Castro",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graceful-fs": "^4.2.2",
     "image-size": "^0.7.4",
     "socket.io": "^2.2.0"
